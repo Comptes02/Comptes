@@ -1,0 +1,17 @@
+{
+  "name": "Comptes",
+  "short_name": "Comptes",
+  "description": "Suivi de mes comptes, dépenses et placements",
+  "lang": "fr",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F2F0E7",
+  "theme_color": "#E7E3D5",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
