@@ -81,7 +81,8 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 .back[hidden]{display:none}
 .topbar .sub{font-size:12px;color:var(--tx3);margin-top:1px}
 .topbar .sp{flex:1}
-.wrap{padding:22px 30px;max-width:1020px;display:flex;flex-direction:column;gap:18px}
+.tb-title{min-width:0}
+.wrap{padding:22px 30px;max-width:1240px;display:flex;flex-direction:column;gap:18px}
 
 .btn{
   padding:7px 13px;border-radius:8px;background:var(--surface);border:1px solid var(--line);
@@ -202,6 +203,51 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 .catrow button:hover{background:#F3E2DC;color:var(--neg)}
 .catrow button svg{width:14px;height:14px;display:block}
 
+/* tableau de bord de l'accueil */
+.dash{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.dash > *{min-width:0}
+.dcol{display:contents}
+@media (max-width:1119px){
+  /* sur écran étroit, les comptes passent avant la liste des opérations */
+  .d-hero{order:1} .d-stats{order:2} .d-acc{order:3} .d-ops{order:4} .d-cat{order:5}
+}
+@media (min-width:1120px){
+  .dash{grid-template-columns:minmax(0,1fr) 336px;align-items:start}
+  .dcol{display:flex;flex-direction:column;gap:16px;min-width:0}
+}
+
+/* répartition du patrimoine */
+.stack{display:flex;height:11px;border-radius:99px;overflow:hidden;margin-top:18px;background:var(--line-2)}
+.stack i{display:block;height:100%}
+.stack i + i{box-shadow:inset 1.5px 0 0 rgba(255,255,255,.6)}
+.stack-legend{display:flex;flex-wrap:wrap;gap:9px 18px;margin-top:13px;font-size:12px;color:var(--tx2)}
+.stack-legend span{display:inline-flex;align-items:center;gap:6px}
+.stack-legend i{width:8px;height:8px;border-radius:2px;display:block;flex:0 0 8px}
+.stack-legend b{font-weight:600;color:var(--tx);letter-spacing:-.01em}
+
+/* liste de comptes groupée par banque */
+.alist{display:flex;flex-direction:column}
+.agroup{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+        padding:15px 2px 5px;font-size:10.5px;font-weight:600;color:var(--tx3);
+        text-transform:uppercase;letter-spacing:.08em}
+.agroup:first-child{padding-top:0}
+.agroup b{font-size:12.5px;letter-spacing:0;text-transform:none;color:var(--tx2);font-weight:600;
+          font-variant-numeric:tabular-nums}
+.arow{display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:10px;cursor:pointer;
+      transition:background .12s}
+.arow:hover{background:var(--surface-2)}
+.arow .ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;flex:0 0 28px}
+.arow .ic svg{width:14px;height:14px}
+.arow .mid{flex:1;min-width:0}
+.arow .nm{font-size:13.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arow .sb{font-size:11px;color:var(--tx3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arow .amt{font-size:14px;font-weight:600;letter-spacing:-.015em;white-space:nowrap}
+.arow .amt.negv{color:var(--neg)}
+.arow.add{justify-content:center;color:var(--tx3);border:1px dashed var(--line);margin-top:10px;
+          padding:9px;font-size:12.5px;gap:6px}
+.arow.add svg{width:14px;height:14px}
+.arow.add:hover{color:var(--acc);border-color:var(--acc);background:transparent}
+
 /* placements */
 .holds{display:flex;flex-direction:column;gap:10px}
 .hold{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 16px;display:flex;align-items:center;gap:15px;cursor:pointer;transition:border-color .12s,box-shadow .12s;box-shadow:0 1px 2px rgba(60,60,40,.04)}
@@ -262,26 +308,34 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
   .nav-btn svg{width:19px;height:19px}
   .nav-btn.on{background:transparent;box-shadow:none}
   main{order:1;height:auto;flex:1;padding-bottom:74px}
-  .topbar{padding:calc(12px + env(safe-area-inset-top,0px)) 16px 10px;flex-wrap:wrap;align-items:center;gap:8px}
-  .topbar h2{display:none}
+  .topbar{padding:calc(12px + env(safe-area-inset-top,0px)) 16px 12px;flex-wrap:wrap;align-items:center;gap:10px}
+  .topbar h2{display:block;font-size:18px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tb-title{flex:1}
+  .topbar .sp{display:none}
   .topbar .sub{display:none}
   .seg-sm .lg{display:none}
   .seg-sm .sm{display:inline}
-  .seg-sm button{padding:5px 10px}
+  .seg-sm button{padding:6px 11px;font-size:13px}
   #moreBtn{display:grid;place-items:center;padding:7px}
   #moreBtn svg{width:16px;height:16px}
-  #topExtra{flex:1;min-width:0}
-  .period{width:100%;justify-content:flex-start;gap:5px}
+  /* la période passe sur sa propre ligne, pleine largeur */
+  #topExtra{order:10;flex-basis:100%;min-width:0}
+  .period{width:100%;justify-content:space-between;gap:8px}
   .pnav{flex:1;min-width:0}
-  .pnav .plabel{flex:1;min-width:0;padding:2px 4px}
-  #addBtn{padding:7px 11px}
+  .pnav .plabel{flex:1;min-width:0;padding:3px 4px;font-size:13px}
+  .pnav button{padding:5px 9px}
+  .seg-sm{flex:0 0 auto}
+  #addBtn{padding:8px 13px}
+  #moreBtn{width:34px;height:34px;padding:0}
   .wrap{padding:14px 16px;gap:14px}
   .hero{padding:18px}
   .hero .big{font-size:32px}
-  .stats{grid-template-columns:1fr;gap:8px}
-  .stat{display:flex;align-items:baseline;justify-content:space-between;padding:11px 14px}
-  .stat .k{margin-bottom:0}
-  .stat .v{font-size:17px}
+  .stats{grid-template-columns:repeat(3,1fr);gap:7px}
+  .stat{padding:10px 9px}
+  .stat .k{font-size:10px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .stat .v{font-size:14.5px;letter-spacing:-.03em}
+  .row .ic{width:27px;height:27px;flex:0 0 27px}
+  .row .l1{font-size:13px}
   .acc-grid{grid-template-columns:1fr;gap:6px}
   .acc{flex-direction:row;align-items:center;gap:10px;padding:10px 12px}
   .acc .tools{display:none}
@@ -343,7 +397,7 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
     <button class="back" id="backBtn" hidden title="Retour">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
     </button>
-    <div>
+    <div class="tb-title">
       <h2 id="ttl">Accueil</h2>
       <div class="sub" id="sub"></div>
     </div>
@@ -779,52 +833,112 @@ const ICO_EDIT = '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>
 const ICO_CSV  = '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15h6M9 18h4"/>';
 
 /* ---------- Accueil ---------- */
+
+/** comptes regroupés par banque (ou par type quand la banque n'est pas renseignée) */
+function accountGroups(){
+  const map = new Map();
+  for (const a of S.accounts){
+    const label = (a.bank || "").trim() || (KINDS[a.kind] || KINDS.courant).label;
+    if (!map.has(label)) map.set(label, []);
+    map.get(label).push(a);
+  }
+  return [...map.entries()]
+    .map(([name, accs]) => ({
+      name, accs,
+      total: Math.round(accs.reduce((s,a) => s + value(a.id), 0) * 100) / 100
+    }))
+    .sort((x,y) => y.total - x.total)
+    .map((g,i) => Object.assign(g, { color: PALETTE[i % PALETTE.length] }));
+}
+
+/** barre de répartition du patrimoine + légende */
+function stackBar(groups){
+  const pos = groups.filter(g => g.total > 0);
+  const tot = pos.reduce((s,g) => s + g.total, 0);
+  if (!tot) return "";
+  return '<div class="stack">'
+      + pos.map(g => '<i style="width:' + (g.total / tot * 100).toFixed(2) + '%;background:' + g.color + '"></i>').join("")
+    + '</div><div class="stack-legend">'
+      + pos.map(g => '<span><i style="background:' + g.color + '"></i>' + esc(g.name)
+                   + ' <b class="num">' + fmt(g.total) + '</b></span>').join("")
+    + '</div>';
+}
+
+/** minuscules sans accents, pour comparer un nom de compte à son type */
+const plain = s => String(s || "").toLowerCase()
+  .replace(/[àâä]/g,"a").replace(/[éèêë]/g,"e").replace(/[îï]/g,"i")
+  .replace(/[ôö]/g,"o").replace(/[ùûü]/g,"u").replace(/ç/g,"c");
+
+function accountRow(a){
+  const k = KINDS[a.kind] || KINDS.courant;
+  const v = value(a.id);
+  let sb = "";
+  if (a.kind === "invest"){
+    const ref = investRef(a.id), g = v - ref;
+    sb = ref > 0 ? fmtS(g) + " · " + pct(g / ref * 100) : "montant à noter";
+  } else {
+    // « Compte courant CBC » n'a pas besoin qu'on lui répète « Compte courant »
+    const mot = plain(k.label).split(" ").pop();
+    if (!plain(a.name).includes(mot)) sb = k.label;
+  }
+  return '<div class="arow" data-openacc="' + a.id + '">'
+    + '<div class="ic" style="background:' + k.color + '1f;color:' + k.color + '">' + svg(k.icon, 2) + '</div>'
+    + '<div class="mid"><div class="nm">' + esc(a.name) + '</div>'
+      + (sb ? '<div class="sb">' + esc(sb) + '</div>' : "") + '</div>'
+    + '<div class="amt num' + (v < 0 ? " negv" : "") + '">' + fmt(v) + '</div></div>';
+}
+
 function viewHome(){
   const list = periodTx();
   const inM = sum(list, "in"), outM = sum(list, "out");
   document.getElementById("sub").textContent = periodLabel();
 
-  const accs = S.accounts.map(a => {
-    const k = KINDS[a.kind] || KINDS.courant, v = value(a.id);
-    let sub, cls = "";
-    if (a.kind === "invest"){
-      const ref = investRef(a.id), g = v - ref;
-      if (ref > 0){ sub = fmtS(g) + " · " + pct(g / ref * 100); cls = g >= 0 ? "pos" : "negv"; }
-      else sub = "Aucun montant connu";
-    } else {
-      const last = S.tx.filter(t => t.from === a.id || t.to === a.id)
-                       .sort((x,y) => y.date.localeCompare(x.date))[0];
-      sub = [a.bank, last ? "Dernier mouvement " + shortDate(last.date) : "Aucun mouvement"]
-              .filter(Boolean).join(" · ");
-    }
-    return '<div class="acc" data-openacc="'+a.id+'">'
-      + '<div class="tools">'
-        + (a.kind === "invest" ? "" : '<button data-csvacc="'+a.id+'" title="Importer un relevé sur ce compte">'+svg(ICO_CSV)+'</button>')
-        + '<button data-editacc="'+a.id+'" title="Modifier ce compte">'+svg(ICO_EDIT)+'</button>'
-      + '</div>'
-      + '<div class="top"><div class="ic" style="background:'+k.color+'1f;color:'+k.color+'">'+svg(k.icon,2)+'</div>'
-      + '<div class="nm">'+esc(a.name)+'</div></div>'
-      + '<div class="bal num">'+fmt(v)+'</div>'
-      + '<div class="sub '+cls+'">'+sub+'</div></div>';
-  }).join("");
+  const groups = accountGroups();
+  const nAcc = S.accounts.length;
 
-  const recent = [...list].sort((a,b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id)).slice(0,8);
+  // dépenses par catégorie, les 5 premières
+  const byCat = {};
+  list.filter(t => t.type === "out" && !t.adj)
+      .forEach(t => { byCat[t.cat || "Autre"] = (byCat[t.cat || "Autre"] || 0) + t.amount; });
+  const cats = Object.entries(byCat).sort((a,b) => b[1] - a[1]).slice(0,5);
 
-  view.innerHTML =
-    '<div class="hero">'
+  const recent = [...list].sort((a,b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id)).slice(0,7);
+
+  view.innerHTML = '<div class="dash"><div class="dcol">'
+
+    + '<div class="hero d-hero">'
       + '<div class="lbl">Tout ce que j\'ai</div>'
-      + '<div class="big num">'+fmt(netWorth())+'</div>'
-      + '<div class="delta">'+esc(periodLabel())+' : <span class="pos">'+fmtS(inM)+'</span> entrés · '+fmt(outM)+' dépensés</div>'
+      + '<div class="big num">' + fmt(netWorth()) + '</div>'
+      + '<div class="delta">' + nAcc + ' compte' + (nAcc > 1 ? "s" : "")
+        + ' · <span class="' + (inM - outM >= 0 ? "pos" : "negv") + '">' + fmtS(inM - outM) + '</span> '
+        + esc(periodLabel().toLowerCase()) + '</div>'
+      + stackBar(groups)
     + '</div>'
-    + '<div class="stats">'
+
+    + '<div class="stats d-stats">'
       + stat("Entrées", fmt(inM), "pos")
       + stat("Dépenses", fmt(outM), "")
       + stat("Reste", fmtS(inM - outM), inM - outM >= 0 ? "pos" : "negv")
     + '</div>'
-    + '<div><div class="sect">Mes comptes</div><div class="acc-grid">'+accs
-      + '<button class="acc add" data-newacc="1">'+svg('<path d="M12 5v14M5 12h14"/>')+'Nouveau compte</button></div></div>'
-    + '<div class="card"><h3>Dernières opérations</h3>'
-      + (recent.length ? txList(recent, false) : emptyBox("Aucune opération sur cette période")) + '</div>';
+
+    + '<div class="card d-ops"><h3>Dernières opérations</h3>'
+      + (recent.length ? txList(recent, false) : emptyBox("Aucune opération sur cette période"))
+    + '</div>'
+
+    + '</div><div class="dcol">'
+
+    + '<div class="card d-acc"><h3>Mes comptes</h3><div class="alist">'
+      + groups.map(g =>
+          '<div class="agroup">' + esc(g.name) + '<b>' + fmt(g.total) + '</b></div>'
+          + g.accs.map(accountRow).join("")).join("")
+      + '<button class="arow add" data-newacc="1">' + svg('<path d="M12 5v14M5 12h14"/>') + 'Nouveau compte</button>'
+    + '</div></div>'
+
+    + '<div class="card d-cat"><h3>Où part l\'argent</h3>'
+      + (cats.length ? catBars(cats, "out") : emptyBox("Aucune dépense sur cette période"))
+    + '</div>'
+
+  + '</div></div>';
 }
 
 /* ---------- page d'un compte ---------- */
@@ -915,6 +1029,8 @@ function txList(list, grouped, accId){
     const sub = (isTr && accId)
         ? (into ? "depuis " + (acc(t.from)||{name:"?"}).name : "vers " + (acc(t.to)||{name:"?"}).name)
       : isTr ? (acc(t.from)||{name:"?"}).name + " → " + (acc(t.to)||{name:"?"}).name
+      // sur la page d'un compte, inutile de répéter son nom à chaque ligne
+      : accId ? esc(t.cat || "")
       : esc(t.cat || "") + " · " + esc((acc(t.type === "in" ? t.to : t.from)||{name:"?"}).name);
     html += '<div class="row clickable" data-edittx="'+t.id+'">'
       + '<div class="ic" style="background:'+color+'1c;color:'+color+'">'+svg(icon,2)+'</div>'
