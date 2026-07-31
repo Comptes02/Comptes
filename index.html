@@ -75,6 +75,10 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
   border-bottom:1px solid var(--line);
 }
 .topbar h2{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:-.02em}
+.back{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;color:var(--tx2);border:1px solid var(--line);background:var(--surface);flex:0 0 30px;margin-bottom:2px}
+.back:hover{background:#fff;border-color:var(--acc);color:var(--acc)}
+.back svg{width:16px;height:16px}
+.back[hidden]{display:none}
 .topbar .sub{font-size:12px;color:var(--tx3);margin-top:1px}
 .topbar .sp{flex:1}
 .wrap{padding:22px 30px;max-width:1020px;display:flex;flex-direction:column;gap:18px}
@@ -103,21 +107,21 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 .hero .delta{font-size:12.5px;color:var(--tx2)}
 
 /* comptes */
-.acc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:11px}
-.acc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 15px;display:flex;flex-direction:column;gap:1px;position:relative;transition:border-color .12s,box-shadow .12s}
+.acc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(186px,1fr));gap:9px}
+.acc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 13px;cursor:pointer;display:flex;flex-direction:column;gap:1px;position:relative;transition:border-color .12s,box-shadow .12s}
 .acc:hover{border-color:#C9C3AF;box-shadow:0 1px 3px rgba(60,60,40,.08)}
-.acc .top{display:flex;align-items:center;gap:8px;margin-bottom:7px;padding-right:46px}
+.acc .top{display:flex;align-items:center;gap:7px;margin-bottom:4px;padding-right:44px}
 .acc .ic{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;flex:0 0 24px}
 .acc .ic svg{width:13px;height:13px}
 .acc .nm{font-size:12.5px;font-weight:550;color:var(--tx2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.acc .bal{font-size:22px;font-weight:600;letter-spacing:-.022em}
+.acc .bal{font-size:19px;font-weight:600;letter-spacing:-.022em}
 .acc .sub{font-size:11.5px;color:var(--tx3)}
 .acc .tools{position:absolute;top:8px;right:8px;display:flex;gap:1px;opacity:0;transition:opacity .12s}
 .acc:hover .tools{opacity:1}
 .acc .tools button{padding:4px;border-radius:6px;color:var(--tx3);display:grid;place-items:center}
 .acc .tools button:hover{background:rgba(0,0,0,.07);color:var(--tx)}
 .acc .tools svg{width:14px;height:14px}
-.acc.add{border-style:dashed;align-items:center;justify-content:center;color:var(--tx3);font-size:13px;min-height:94px;gap:6px;flex-direction:row;background:transparent}
+.acc.add{border-style:dashed;align-items:center;justify-content:center;color:var(--tx3);font-size:13px;min-height:70px;gap:6px;flex-direction:row;background:transparent}
 .acc.add:hover{color:var(--acc);background:var(--surface-2);border-color:var(--acc)}
 .acc.add svg{width:15px;height:15px}
 
@@ -154,6 +158,7 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 /* sélecteur de période */
 .period{display:flex;align-items:center;gap:6px}
 .seg-sm{display:flex;gap:1px;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:2px}
+.seg-sm .sm{display:none}
 .seg-sm button{padding:4px 9px;border-radius:7px;font-size:12.5px;font-weight:500;color:var(--tx2);transition:.12s}
 .seg-sm button:hover{background:var(--surface-2);color:var(--tx)}
 .seg-sm button.on{background:var(--acc);color:#F6F8F5;font-weight:550}
@@ -164,24 +169,6 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 .pnav .plabel{font-size:12.5px;font-weight:550;padding:2px 9px;min-width:112px;text-align:center;text-transform:capitalize;color:var(--tx)}
 .pnav .plabel:hover{background:var(--surface-2)}
 
-/* mini calendrier */
-.calpop{position:absolute;z-index:60;background:#FCFBF7;border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 14px 40px rgba(50,50,30,.2);width:272px}
-.calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.calhead .m{font-size:13px;font-weight:600;text-transform:capitalize}
-.calhead button{padding:4px 6px;border-radius:6px;color:var(--tx2);display:grid;place-items:center}
-.calhead button:hover{background:var(--surface-2)}
-.calhead svg{width:14px;height:14px}
-.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.calgrid .dow{font-size:10px;color:var(--tx3);text-align:center;font-weight:600;padding-bottom:4px;text-transform:uppercase}
-.calgrid button{height:30px;border-radius:7px;font-size:12.5px;color:var(--tx);font-variant-numeric:tabular-nums;transition:background .1s}
-.calgrid button:hover{background:var(--acc-soft)}
-.calgrid button.out{color:var(--tx3);opacity:.45}
-.calgrid button.inr{background:var(--acc-soft);border-radius:0}
-.calgrid button.edge{background:var(--acc);color:#F6F8F5;font-weight:600}
-.calgrid button.today{box-shadow:inset 0 0 0 1px var(--acc)}
-.calfoot{display:flex;gap:6px;margin-top:12px}
-.calfoot .btn{flex:1;text-align:center;padding:7px}
-.calinfo{font-size:11.5px;color:var(--tx3);margin-top:10px;text-align:center}
 
 .chart{width:100%;height:180px;display:block;overflow:visible}
 .chart text{font-size:10px;fill:var(--tx3);font-family:var(--sans)}
@@ -239,16 +226,11 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 .preset-grid button:hover{border-color:var(--acc)}
 .preset-grid button.on{border-color:var(--acc);background:var(--acc-soft)}
 
-/* assistant */
-.asst-in{width:100%;padding:12px 14px;border-radius:10px;background:#fff;border:1px solid var(--line);font-size:15px;outline:none}
-.asst-in:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(47,97,84,.15)}
+/* encarts d'information */
 .asst-out{margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--surface)}
 .asst-out .k{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);font-weight:600;margin-bottom:7px}
 .asst-out .v{font-size:14px;line-height:1.6}
 .asst-out .chip{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line-2);font-size:12px;margin:0 4px 4px 0}
-.asst-ex{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.asst-ex button{font-size:11.5px;padding:4px 9px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line-2);color:var(--tx2)}
-.asst-ex button:hover{border-color:var(--acc);color:var(--acc)}
 
 .prev{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:4px}
 .prev table{width:100%;border-collapse:collapse;font-size:12.5px}
@@ -281,14 +263,18 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
   .nav-btn.on{background:transparent;box-shadow:none}
   main{order:1;height:auto;flex:1;padding-bottom:74px}
   .topbar{padding:calc(12px + env(safe-area-inset-top,0px)) 16px 10px;flex-wrap:wrap;align-items:center;gap:8px}
-  .topbar h2{font-size:17px}
+  .topbar h2{display:none}
   .topbar .sub{display:none}
+  .seg-sm .lg{display:none}
+  .seg-sm .sm{display:inline}
+  .seg-sm button{padding:5px 10px}
   #moreBtn{display:grid;place-items:center;padding:7px}
   #moreBtn svg{width:16px;height:16px}
-  #topExtra{order:5;width:100%}
-  .period{width:100%;justify-content:space-between}
-  .pnav{flex:1}
-  .pnav .plabel{flex:1;min-width:0}
+  #topExtra{flex:1;min-width:0}
+  .period{width:100%;justify-content:flex-start;gap:5px}
+  .pnav{flex:1;min-width:0}
+  .pnav .plabel{flex:1;min-width:0;padding:2px 4px}
+  #addBtn{padding:7px 11px}
   .wrap{padding:14px 16px;gap:14px}
   .hero{padding:18px}
   .hero .big{font-size:32px}
@@ -296,8 +282,13 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
   .stat{display:flex;align-items:baseline;justify-content:space-between;padding:11px 14px}
   .stat .k{margin-bottom:0}
   .stat .v{font-size:17px}
-  .acc-grid{grid-template-columns:1fr}
-  .acc .tools{opacity:1}
+  .acc-grid{grid-template-columns:1fr;gap:6px}
+  .acc{flex-direction:row;align-items:center;gap:10px;padding:10px 12px}
+  .acc .tools{display:none}
+  .acc .top{margin-bottom:0;padding-right:0;flex:1;min-width:0}
+  .acc .bal{font-size:16.5px}
+  .acc .sub{display:none}
+  .acc.add{min-height:44px;padding:10px}
   .hold{flex-wrap:wrap;gap:10px}
   .hold .spark{display:none}
   .hold .val{min-width:0}
@@ -328,10 +319,6 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-7.6-4.2M3 12a9 9 0 0 1 9-9 9 9 0 0 1 7.6 4.2"/><path d="M20 3v5h-5M4 21v-5h5"/></svg>
       Synchronisation
     </button>
-    <button class="nav-btn" data-act="assist">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></svg>
-      Assistant
-    </button>
     <button class="nav-btn" data-act="cats">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 12h18M3 19h18"/></svg>
       Catégories
@@ -353,6 +340,9 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 
 <main>
   <div class="topbar">
+    <button class="back" id="backBtn" hidden title="Retour">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
     <div>
       <h2 id="ttl">Accueil</h2>
       <div class="sub" id="sub"></div>
@@ -675,7 +665,7 @@ const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;
 const svg = (p, w) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="'+(w||2)+'" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';
 
 /* ============================ période ============================ */
-const P = { mode:"month", anchor: todayISO(), from:null, to:null };
+const P = { mode:"month", anchor: todayISO() };
 
 function dataBounds(){
   const dates = S.tx.map(t => t.date).sort();
@@ -685,7 +675,6 @@ function periodBounds(){
   if (P.mode === "day")   return [P.anchor, P.anchor];
   if (P.mode === "month"){ const ym = ymOf(P.anchor); return [ym + "-01", lastDayOfMonth(ym)]; }
   if (P.mode === "year"){  const y = P.anchor.slice(0,4); return [y + "-01-01", y + "-12-31"]; }
-  if (P.mode === "range" && P.from && P.to) return [P.from, P.to];
   return dataBounds();
 }
 const inPeriod = t => { const [a,b] = periodBounds(); return t.date >= a && t.date <= b; };
@@ -696,18 +685,12 @@ function periodLabel(){
   if (P.mode === "day")   return P.anchor === todayISO() ? "Aujourd'hui" : longDate(P.anchor);
   if (P.mode === "month") return monthLabel(ymOf(P.anchor));
   if (P.mode === "year")  return P.anchor.slice(0,4);
-  if (P.mode === "range") return shortDate(a) + " → " + shortDate(b);
   return "Depuis le début";
 }
 function shiftPeriod(d){
   if (P.mode === "day")   P.anchor = shiftDays(P.anchor, d);
   else if (P.mode === "month") P.anchor = shiftYM(ymOf(P.anchor), d) + "-01";
   else if (P.mode === "year")  P.anchor = (+P.anchor.slice(0,4) + d) + "-01-01";
-  else if (P.mode === "range" && P.from && P.to){
-    const len = daysBetween(P.from, P.to) + 1;
-    P.from = shiftDays(P.from, d * len);
-    P.to   = shiftDays(P.to,   d * len);
-  }
 }
 
 /** découpe la période en tranches : jour, mois ou année selon sa longueur */
@@ -741,38 +724,45 @@ const TABS = [
   { id:"bilan",  label:"Bilan",         icon:'<path d="M4 19V6M10 19V10M16 19V4M22 19H2"/>' }
 ];
 let tab = "home";
+let openAcc = null;      // compte affiché en plein écran, ou null
 
 document.getElementById("nav").innerHTML = TABS.map(t =>
   '<button class="nav-btn" data-tab="'+t.id+'">'+svg(t.icon)+t.label+'</button>').join("");
 document.getElementById("nav").onclick = e => {
   const b = e.target.closest("[data-tab]");
-  if (b) { tab = b.dataset.tab; render(); }
+  if (b) { tab = b.dataset.tab; openAcc = null; render(); }
 };
+document.getElementById("backBtn").onclick = () => { openAcc = null; render(); };
 
 /* ============================ rendu ============================ */
 const view = document.getElementById("view");
+const main = document.querySelector("main");
 const topExtra = document.getElementById("topExtra");
 
 function render(){
-  closeCal();
+  if (openAcc && !acc(openAcc)) openAcc = null;
   document.querySelectorAll("[data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  document.getElementById("ttl").textContent = TABS.find(t => t.id === tab).label;
+  document.getElementById("backBtn").hidden = !openAcc;
+  document.getElementById("ttl").textContent = openAcc ? acc(openAcc).name : TABS.find(t => t.id === tab).label;
 
-  topExtra.innerHTML = (tab !== "invest")
+  topExtra.innerHTML = (openAcc || tab !== "invest")
     ? '<div class="period">'
       + '<div class="seg-sm">'
-        + [["day","Jour"],["month","Mois"],["year","Année"],["all","Tout"]].map(([m,l]) =>
-            '<button data-pm="'+m+'"'+(P.mode === m ? ' class="on"' : "")+'>'+l+'</button>').join("")
+        + [["day","Jour","J"],["month","Mois","M"],["year","Année","A"],["all","Tout","Tout"]].map(([m,l,c]) =>
+            '<button data-pm="'+m+'"'+(P.mode === m ? ' class="on"' : "")
+            + '><span class="lg">'+l+'</span><span class="sm">'+c+'</span></button>').join("")
       + '</div>'
       + '<div class="pnav">'
         + (P.mode === "all" ? "" : '<button data-pv="-1">'+svg('<path d="M15 18l-6-6 6-6"/>',2.2)+'</button>')
-        + '<button class="plabel" data-cal="1" title="Choisir une plage de dates">'+esc(periodLabel())+'</button>'
+        + '<span class="plabel">'+esc(periodLabel())+'</span>'
         + (P.mode === "all" ? "" : '<button data-pv="1">'+svg('<path d="M9 18l6-6-6-6"/>',2.2)+'</button>')
       + '</div></div>'
     : "";
 
-  ({ home:viewHome, ops:viewOps, invest:viewInvest, bilan:viewBilan })[tab]();
+  if (openAcc) viewAccount(openAcc);
+  else ({ home:viewHome, ops:viewOps, invest:viewInvest, bilan:viewBilan })[tab]();
   view.scrollTop = 0;
+  main.scrollTop = 0;
 }
 
 topExtra.onclick = e => {
@@ -780,8 +770,6 @@ topExtra.onclick = e => {
   if (m){ P.mode = m.dataset.pm; render(); return; }
   const v = e.target.closest("[data-pv]");
   if (v){ shiftPeriod(+v.dataset.pv); render(); return; }
-  const c = e.target.closest("[data-cal]");
-  if (c){ openCal(c); return; }
 };
 
 const stat = (k,v,cls) => '<div class="stat"><div class="k">'+k+'</div><div class="v num '+(cls||"")+'">'+v+'</div></div>';
@@ -809,7 +797,7 @@ function viewHome(){
       sub = [a.bank, last ? "Dernier mouvement " + shortDate(last.date) : "Aucun mouvement"]
               .filter(Boolean).join(" · ");
     }
-    return '<div class="acc">'
+    return '<div class="acc" data-openacc="'+a.id+'">'
       + '<div class="tools">'
         + (a.kind === "invest" ? "" : '<button data-csvacc="'+a.id+'" title="Importer un relevé sur ce compte">'+svg(ICO_CSV)+'</button>')
         + '<button data-editacc="'+a.id+'" title="Modifier ce compte">'+svg(ICO_EDIT)+'</button>'
@@ -839,6 +827,61 @@ function viewHome(){
       + (recent.length ? txList(recent, false) : emptyBox("Aucune opération sur cette période")) + '</div>';
 }
 
+/* ---------- page d'un compte ---------- */
+function viewAccount(id){
+  const a = acc(id);
+  const k = KINDS[a.kind] || KINDS.courant;
+  const isInv = a.kind === "invest";
+
+  const list = periodTx().filter(t => t.from === id || t.to === id)
+                         .sort((x,y) => y.date.localeCompare(x.date) || y.id.localeCompare(x.id));
+  const inM  = list.reduce((s,t) => s + (t.to   === id && !t.adj ? t.amount : 0), 0);
+  const outM = list.reduce((s,t) => s + (t.from === id && !t.adj ? t.amount : 0), 0);
+
+  document.getElementById("sub").textContent = [a.bank, k.label].filter(Boolean).join(" · ");
+
+  let hero, actions, extra = "";
+  if (isInv){
+    const est = investEstimate(id), ref = investRef(id), g = est.value - ref;
+    const q = quote(a.symbol);
+    hero = '<div class="hero">'
+      + '<div class="lbl">' + esc([a.bank, a.symbol].filter(Boolean).join(" · ")) + '</div>'
+      + '<div class="big num">' + fmt(est.value) + '</div>'
+      + '<div class="delta">' + (ref > 0
+          ? 'Placé ' + fmt(ref) + ' · <span class="' + (g >= 0 ? "pos" : "negv") + '">' + fmtS(g) + ' (' + pct(g / ref * 100) + ')</span>'
+          : 'Aucun montant connu pour l\'instant') + '</div>'
+      + '</div>';
+    actions = '<button class="btn btn-p" data-addvers="' + id + '">Ajouter un versement</button>'
+            + '<button class="btn" data-hold="' + id + '">Réglages du placement</button>';
+    const serie = holdingSeries(id);
+    if (serie.length > 2) extra = '<div class="card">' + lineChart(serie) + '</div>';
+    else if (q) extra = '<div class="card"><div class="hint">' + esc(quoteCaption(a.symbol)) + '</div></div>';
+  } else {
+    const last = S.tx.filter(t => t.from === id || t.to === id)
+                     .sort((x,y) => y.date.localeCompare(x.date))[0];
+    hero = '<div class="hero">'
+      + '<div class="lbl">' + esc(a.bank || k.label) + '</div>'
+      + '<div class="big num">' + fmt(balance(id)) + '</div>'
+      + '<div class="delta">' + (last ? 'Dernier mouvement ' + shortDate(last.date) : 'Aucun mouvement') + '</div>'
+      + '</div>';
+    actions = '<button class="btn btn-p" data-editacc="' + id + '">Modifier le compte</button>'
+            + '<button class="btn" data-csvacc="' + id + '">Importer un relevé</button>';
+  }
+
+  view.innerHTML =
+    hero
+    + '<div class="btn-row">' + actions + '</div>'
+    + extra
+    + '<div class="stats">'
+      + stat("Entrées", fmt(inM), "pos")
+      + stat("Sorties", fmt(outM), "")
+      + stat("Différence", fmtS(inM - outM), inM - outM >= 0 ? "pos" : "negv")
+    + '</div>'
+    + '<div class="card"><h3>Opérations · ' + esc(periodLabel()) + '</h3>'
+      + (list.length ? txList(list, true, id) : emptyBox("Rien sur cette période"))
+    + '</div>';
+}
+
 /* ---------- Opérations ---------- */
 function viewOps(){
   const list = periodTx().sort((a,b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
@@ -855,18 +898,23 @@ function viewOps(){
     + '<div class="card">' + (list.length ? txList(list, true) : emptyBox("Rien sur cette période")) + '</div>';
 }
 
-function txList(list, grouped){
+function txList(list, grouped, accId){
   let html = '<div class="list">', last = null;
   for (const t of list){
     if (grouped && t.date !== last){ html += '<div class="daylbl">'+dayLabel(t.date)+'</div>'; last = t.date; }
     const isTr = t.type === "tr";
     const color = isTr ? "#938E84" : catColor(t.cat, t.type);
     const icon = isTr ? '<path d="M7 16V4M7 4L3 8M7 4l4 4M17 8v12M17 20l4-4M17 20l-4-4"/>' : kind(t.type === "in" ? t.to : t.from).icon;
-    const amt = isTr ? fmt(t.amount)
-              : t.type === "in" ? '<span class="pos">'+fmtS(t.amount)+'</span>'
-              : "−" + fmt(t.amount);
-    const sub = isTr
-      ? (acc(t.from)||{name:"?"}).name + " → " + (acc(t.to)||{name:"?"}).name
+    // sur la page d'un compte, un virement est une entrée ou une sortie selon le sens
+    const into = accId && t.to === accId;
+    const amt = (isTr && accId)
+        ? (into ? '<span class="pos">+'+fmt(t.amount)+'</span>' : "−" + fmt(t.amount))
+      : isTr ? fmt(t.amount)
+      : t.type === "in" ? '<span class="pos">'+fmtS(t.amount)+'</span>'
+      : "−" + fmt(t.amount);
+    const sub = (isTr && accId)
+        ? (into ? "depuis " + (acc(t.from)||{name:"?"}).name : "vers " + (acc(t.to)||{name:"?"}).name)
+      : isTr ? (acc(t.from)||{name:"?"}).name + " → " + (acc(t.to)||{name:"?"}).name
       : esc(t.cat || "") + " · " + esc((acc(t.type === "in" ? t.to : t.from)||{name:"?"}).name);
     html += '<div class="row clickable" data-edittx="'+t.id+'">'
       + '<div class="ic" style="background:'+color+'1c;color:'+color+'">'+svg(icon,2)+'</div>'
@@ -958,7 +1006,7 @@ function viewInvest(){
     const q = quote(a.symbol);
     const sp = holdingSeries(a.id);
     const rec = recurringOf(a.id);
-    return '<div class="hold" data-hold="' + a.id + '">'
+    return '<div class="hold" data-openacc="' + a.id + '">'
       + '<div class="ic" style="background:' + col + '1f;color:' + col + '">' + svg(KINDS.invest.icon, 2) + '</div>'
       + '<div class="mid">'
         + '<div class="nm">' + esc(a.name) + '</div>'
@@ -1280,90 +1328,9 @@ function lineChart(pts){
     + '<path d="'+d+'" fill="none" stroke="'+c+'" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 }
 
-/* ============================ mini calendrier ============================ */
-let calEl = null, calCursor = null, calFrom = null, calTo = null;
-
-function closeCal(){
-  if (calEl){ calEl.remove(); calEl = null; document.removeEventListener("mousedown", calOutside); }
-}
-function calOutside(e){ if (calEl && !calEl.contains(e.target)) closeCal(); }
-
-function openCal(anchorEl){
-  if (calEl) return closeCal();
-  const [a,b] = periodBounds();
-  calFrom = a; calTo = b; calCursor = ymOf(a);
-  calEl = document.createElement("div");
-  calEl.className = "calpop";
-  document.body.appendChild(calEl);
-  const r = anchorEl.getBoundingClientRect();
-  calEl.style.top = (r.bottom + 8) + "px";
-  calEl.style.left = Math.max(12, Math.min(r.left - 80, window.innerWidth - 284)) + "px";
-  drawCal();
-  setTimeout(() => document.addEventListener("mousedown", calOutside), 0);
-}
-
-function drawCal(){
-  const [y, m] = calCursor.split("-").map(Number);
-  const startDow = (new Date(y, m-1, 1).getDay() + 6) % 7;    // lundi = 0
-  const nDays = new Date(y, m, 0).getDate();
-  const cells = [];
-  for (let i = startDow; i > 0; i--) cells.push({ d: shiftDays(calCursor + "-01", -i), out:true });
-  for (let d = 1; d <= nDays; d++) cells.push({ d: calCursor + "-" + String(d).padStart(2,"0"), out:false });
-  while (cells.length % 7) cells.push({ d: shiftDays(cells[cells.length-1].d, 1), out:true });
-
-  const lo = calFrom && calTo ? (calFrom <= calTo ? calFrom : calTo) : calFrom;
-  const hi = calFrom && calTo ? (calFrom <= calTo ? calTo : calFrom) : calFrom;
-
-  calEl.innerHTML =
-    '<div class="calhead">'
-      + '<button data-cm="-1">'+svg('<path d="M15 18l-6-6 6-6"/>',2.2)+'</button>'
-      + '<div class="m">'+monthLabel(calCursor)+'</div>'
-      + '<button data-cm="1">'+svg('<path d="M9 18l6-6-6-6"/>',2.2)+'</button>'
-    + '</div>'
-    + '<div class="calgrid">'
-      + ["lu","ma","me","je","ve","sa","di"].map(d => '<div class="dow">'+d+'</div>').join("")
-      + cells.map(c => {
-          const cls = [];
-          if (c.out) cls.push("out");
-          if (lo && hi && c.d > lo && c.d < hi) cls.push("inr");
-          if (c.d === lo || c.d === hi) cls.push("edge");
-          if (c.d === todayISO()) cls.push("today");
-          return '<button class="'+cls.join(" ")+'" data-cd="'+c.d+'">'+(+c.d.slice(8))+'</button>';
-        }).join("")
-    + '</div>'
-    + '<div class="calinfo">'+(lo && hi
-        ? shortDate(lo) + " → " + shortDate(hi) + " · " + (daysBetween(lo,hi)+1) + " jours"
-        : "Choisis la date de fin")+'</div>'
-    + '<div class="calfoot"><button class="btn" data-cc>Annuler</button><button class="btn btn-p" data-ca>Appliquer</button></div>';
-
-  calEl.onclick = e => {
-    const nav = e.target.closest("[data-cm]");
-    if (nav){ calCursor = shiftYM(calCursor, +nav.dataset.cm); drawCal(); return; }
-    const day = e.target.closest("[data-cd]");
-    if (day){
-      const d = day.dataset.cd;
-      if (!calFrom || (calFrom && calTo)){ calFrom = d; calTo = null; }
-      else calTo = d;
-      drawCal();
-      return;
-    }
-    if (e.target.closest("[data-cc]")){ closeCal(); return; }
-    if (e.target.closest("[data-ca]")){
-      if (calFrom){
-        const t = calTo || calFrom;
-        P.mode = "range";
-        P.from = calFrom <= t ? calFrom : t;
-        P.to   = calFrom <= t ? t : calFrom;
-      }
-      closeCal(); render();
-    }
-  };
-}
-
 /* ============================ modales ============================ */
 const ov = document.getElementById("ov");
 function openModal(html, wide){
-  closeCal();
   ov.innerHTML = '<div class="modal'+(wide ? " wide" : "")+'">'+html+'</div>';
   ov.hidden = false;
   const f = ov.querySelector("input:not([type=hidden]),select");
@@ -1426,7 +1393,7 @@ ov.addEventListener("click", e => {
 });
 
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape"){ if (!ov.hidden) closeModal(); else closeCal(); }
+  if (e.key === "Escape" && !ov.hidden) closeModal();
   if (e.key === "Enter" && !ov.hidden){
     const ok = ov.querySelector("[data-ok]");
     if (ok && !ok.disabled && e.target.tagName !== "BUTTON" && e.target.tagName !== "SELECT"){ e.preventDefault(); ok.click(); }
@@ -2009,345 +1976,6 @@ function modalCsv(rows, filename, presetAccount){
   refresh();
 }
 
-/* ============================ assistant local ============================ */
-/* Comprend des phrases simples et agit dans l'app. Tout tourne sur ce Mac :
-   rien n'est envoyé sur Internet et ça ne coûte rien. */
-
-/** minuscules sans accents, en gardant la même longueur que l'original
-    (pour pouvoir retirer les morceaux reconnus au bon endroit) */
-function key(s){
-  return String(s == null ? "" : s)
-    .replace(/[àâä]/g,"a").replace(/[ÀÂÄ]/g,"a")
-    .replace(/[éèêë]/g,"e").replace(/[ÉÈÊË]/g,"e")
-    .replace(/[îï]/g,"i").replace(/[ÎÏ]/g,"i")
-    .replace(/[ôö]/g,"o").replace(/[ÔÖ]/g,"o")
-    .replace(/[ùûü]/g,"u").replace(/[ÙÛÜ]/g,"u")
-    .replace(/ç/g,"c").replace(/Ç/g,"c")
-    .toLowerCase();
-}
-
-const WEEKDAYS = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
-const MONTHS_K = "(janvier|fevrier|mars|avril|mai|juin|juillet|aout|septembre|octobre|novembre|decembre)";
-const MONTH_INDEX = k => ["janvier","fevrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"].indexOf(k);
-
-/** lit une phrase morceau par morceau : ce qui est reconnu est retiré, le reste devient le libellé */
-function scanner(text){
-  const raw = String(text || "");
-  const k = key(raw);
-  const used = new Array(raw.length).fill(false);
-  return {
-    k,
-    take(source){
-      const rx = new RegExp(source, "g");
-      let m;
-      while ((m = rx.exec(k))){
-        let free = true;
-        for (let i = m.index; i < m.index + m[0].length; i++) if (used[i]) { free = false; break; }
-        if (free){
-          for (let i = m.index; i < m.index + m[0].length; i++) used[i] = true;
-          return m;
-        }
-      }
-      return null;
-    },
-    rest(){
-      let out = "";
-      for (let i = 0; i < raw.length; i++) if (!used[i]) out += raw[i];
-      return out.replace(/\s+/g," ").trim();
-    }
-  };
-}
-
-/** dernière occurrence passée d'un jour de la semaine */
-function lastWeekday(name){
-  const target = WEEKDAYS.indexOf(name);
-  let d = todayISO();
-  for (let i = 0; i < 7; i++){
-    if (new Date(d + "T12:00:00").getDay() === target) return d;
-    d = shiftDays(d, -1);
-  }
-  return todayISO();
-}
-
-function findCatByName(txt){
-  const k = key(txt).trim();
-  if (!k) return null;
-  for (const side of ["out","in"]){
-    for (const c of catList(side)){
-      const ck = key(c.name);
-      if (ck === k || ck.startsWith(k) || k.startsWith(ck)) return { side, name:c.name };
-    }
-  }
-  for (const side of ["out","in"]){
-    for (const c of catList(side)) if (k.includes(key(c.name))) return { side, name:c.name };
-  }
-  return null;
-}
-
-const ACC_ALIAS = {
-  cash:    "liquide|especes|cash|billets",
-  credit:  "carte|cb",
-  courant: "courant|compte|banque",
-  epargne: "livret|epargne",
-  invest:  "bourse|investissement|placement"
-};
-const rxEsc = w => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-/** façons d'écrire un compte : son nom entier, ses mots longs, puis les mots courants de son type */
-function accountPatterns(a){
-  const pats = [];
-  const words = key(a.name).split(/[^a-z0-9&]+/).filter(Boolean);
-  if (words.length > 1) pats.push(words.map(rxEsc).join("\\s+"));
-  words.filter(w => w.length >= 4).forEach(w => pats.push(rxEsc(w)));
-  if (ACC_ALIAS[a.kind]) pats.push("(?:" + ACC_ALIAS[a.kind] + ")");
-  return pats;
-}
-
-/** cherche un compte, éventuellement précédé d'une préposition qui donne le sens
-    (« du courant » = source, « vers le liquide » = destination) */
-function takeAccount(sc, prepRe, exclude){
-  for (const a of S.accounts){
-    if (exclude && a.id === exclude) continue;
-    for (const p of accountPatterns(a)){
-      const src = prepRe
-        ? "\\b(?:" + prepRe + ")\\s+(?:l'|le\\s+|la\\s+|les\\s+|mon\\s+|ma\\s+|mes\\s+)?" + p + "\\b"
-        : "\\b" + p + "\\b";
-      if (sc.take(src)) return a;
-    }
-  }
-  return null;
-}
-const defaultAccount = () => S.accounts.find(a => a.kind !== "invest") || S.accounts[0];
-
-const STOP = /\b(j'?ai|pour|de la|du|des|de|le|la|les|un|une|en|a|au|aux|chez|avec|sur|depense|depenses|paye|payer|achete|acheter|coute|ca|c'est|et|mon|ma|mes|ce|cette)\b/g;
-
-/** analyse une phrase et dit ce qu'elle veut faire */
-function parseCmd(input){
-  const raw = String(input || "").trim();
-  if (!raw) return { kind:"empty" };
-  const k = key(raw);
-
-  // reclassement en lot : « range carrefour dans courses »
-  const re = k.match(/^(?:range|classe|mets?|deplace|recategorise)\s+(?:tout\s+ce\s+qui\s+contient\s+|toutes?\s+les\s+|tous\s+les\s+)?(.+?)\s+(?:dans|en|vers)\s+(.+?)\s*$/);
-  if (re){
-    const cat = findCatByName(re[2]);
-    const needle = re[1].trim().replace(/^["'«»\s]+|["'«»\s]+$/g,"");
-    if (!cat) return { kind:"error", msg:"Je ne trouve pas la catégorie « " + re[2].trim() + " »." };
-    if (!needle) return { kind:"error", msg:"Dis-moi quoi ranger, par exemple « range carrefour dans Courses »." };
-    const hits = S.tx.filter(t => t.type === cat.side && key(t.label || "").includes(key(needle)) && t.cat !== cat.name);
-    return { kind:"recat", needle, cat, hits };
-  }
-
-  if (/\bcombien\b/.test(k)) return parseQuestion(raw);
-  return parseTx(raw);
-}
-
-function parseTx(raw){
-  const sc = scanner(raw);
-
-  // --- quand ?
-  let date = todayISO();
-  let m;
-  if ((m = sc.take("\\bavant[- ]?hier\\b")))        date = shiftDays(todayISO(), -2);
-  else if ((m = sc.take("\\bhier\\b")))             date = shiftDays(todayISO(), -1);
-  else if ((m = sc.take("\\baujourd'?hui\\b")))     date = todayISO();
-  else if ((m = sc.take("\\b(\\d{1,2})[\\/.](\\d{1,2})(?:[\\/.](\\d{2,4}))?\\b"))){
-    let y = m[3] ? (+m[3] < 100 ? 2000 + +m[3] : +m[3]) : +todayISO().slice(0,4);
-    date = y + "-" + String(+m[2]).padStart(2,"0") + "-" + String(+m[1]).padStart(2,"0");
-  }
-  else if ((m = sc.take("\\b(\\d{1,2})\\s+" + MONTHS_K + "\\b"))){
-    const y = +todayISO().slice(0,4);
-    date = y + "-" + String(MONTH_INDEX(m[2]) + 1).padStart(2,"0") + "-" + String(+m[1]).padStart(2,"0");
-    if (date > todayISO()) date = (y-1) + date.slice(4);
-  }
-  else if ((m = sc.take("\\b(" + WEEKDAYS.join("|") + ")\\b"))) date = lastWeekday(m[1]);
-
-  // --- combien ?
-  const am = sc.take("\\b(\\d+(?:[.,]\\d{1,2})?)\\s*(?:€|euros?|eur)?\\b");
-  const amount = am ? Math.round(parseFloat(am[1].replace(",",".")) * 100) / 100 : 0;
-
-  // --- quel sens ?
-  const isTr = !!sc.take("\\b(vire|virement|transfere|transfert|retire|retrait)\\b");
-  const isIn = !isTr && !!sc.take("\\b(recu|recus|gagne|gagnee|encaisse|salaire|prime|vendu|vente|rembourse|remboursement|rentre)\\b");
-  const type = isTr ? "tr" : (isIn ? "in" : "out");
-
-  // --- quels comptes ?
-  const FROM_PREP = "de|du|depuis";
-  const TO_PREP   = "vers|a|au|sur|en|dans";
-  let from = null, to = null, accountId = null;
-  if (type === "tr"){
-    from = takeAccount(sc, FROM_PREP);
-    to   = takeAccount(sc, TO_PREP, from && from.id);
-    if (!from) from = takeAccount(sc, null, to && to.id);
-    if (!to)   to   = takeAccount(sc, null, from && from.id);
-    // « retire 20 » sans plus de précision : du compte courant vers le liquide
-    if (!from) from = S.accounts.find(a => a.kind === "courant") || defaultAccount();
-    if (!to)   to   = S.accounts.find(a => a.kind === "cash" && a.id !== from.id)
-                   || S.accounts.find(a => a.id !== from.id);
-  } else {
-    accountId = (takeAccount(sc, "en|sur|avec|par") || takeAccount(sc, null) || defaultAccount()).id;
-  }
-
-  // --- catégorie explicite ? nom entier d'abord, puis mot unique
-  let cat = null;
-  const side = type === "in" ? "in" : "out";
-  for (const c of catList(side)){
-    const parts = key(c.name).split(/[^a-z0-9]+/).filter(Boolean).map(rxEsc);
-    if (parts.length > 1 && sc.take("\\b" + parts.join("[\\s/]+") + "\\b")){ cat = c.name; break; }
-  }
-  if (!cat) for (const c of catList(side)){
-    const parts = key(c.name).split(/[^a-z0-9]+/).filter(Boolean);
-    if (parts.length === 1 && parts[0].length >= 4 && sc.take("\\b" + rxEsc(parts[0]) + "\\b")){ cat = c.name; break; }
-  }
-
-  let label = sc.rest().replace(STOP, " ").replace(/\s+/g," ").trim();
-  label = label.replace(/^[-–,;:]+|[-–,;:]+$/g,"").trim();
-  if (!cat && type !== "tr") cat = guessCat(label, type === "in");
-
-  if (!(amount > 0)) return { kind:"error", msg:"Il me manque le montant. Par exemple : « kebab 12 hier »." };
-
-  return { kind:"tx", type, amount, date, accountId, from, to, cat,
-           label: label || (type === "tr" ? "Virement" : "Sans nom") };
-}
-
-function parseQuestion(raw){
-  const k = key(raw);
-  const wantIn = /\b(gagne|recu|rentre|touche|encaisse)\b/.test(k);
-
-  let from, to, plabel;
-  const y = todayISO().slice(0,4);
-  let m;
-  if (/\baujourd'?hui\b/.test(k)){ from = to = todayISO(); plabel = "aujourd'hui"; }
-  else if (/\bhier\b/.test(k)){ from = to = shiftDays(todayISO(),-1); plabel = "hier"; }
-  else if (/\bcette semaine\b/.test(k)){
-    const dow = (new Date(todayISO()+"T12:00:00").getDay() + 6) % 7;
-    from = shiftDays(todayISO(), -dow); to = todayISO(); plabel = "cette semaine";
-  }
-  else if (/\bce mois\b/.test(k)){ from = ymOf(todayISO())+"-01"; to = lastDayOfMonth(ymOf(todayISO())); plabel = "en " + monthLabel(ymOf(todayISO())); }
-  else if (/\bcette annee\b/.test(k)){ from = y+"-01-01"; to = y+"-12-31"; plabel = "en " + y; }
-  else if (/\b(depuis le debut|en tout|au total|toujours)\b/.test(k)){ const b = dataBounds(); from = b[0]; to = b[1]; plabel = "depuis le début"; }
-  else if ((m = k.match(new RegExp("\\ben\\s+" + MONTHS_K + "\\b")))){
-    const ym = y + "-" + String(MONTH_INDEX(m[1]) + 1).padStart(2,"0");
-    from = ym + "-01"; to = lastDayOfMonth(ym); plabel = "en " + monthLabel(ym);
-  }
-  else { const b = periodBounds(); from = b[0]; to = b[1]; plabel = "sur « " + periodLabel() + " »"; }
-
-  // catégorie citée ?
-  let cat = null;
-  for (const c of catList(wantIn ? "in" : "out")) if (k.includes(key(c.name))) { cat = c.name; break; }
-  if (!cat){
-    for (const c of catList(wantIn ? "in" : "out")){
-      const w = key(c.name).split(/[^a-z0-9]+/).filter(x => x.length >= 5)[0];
-      if (w && k.includes(w)){ cat = c.name; break; }
-    }
-  }
-
-  const hits = S.tx.filter(t => t.type === (wantIn ? "in" : "out") && !t.adj
-                            && t.date >= from && t.date <= to
-                            && (!cat || t.cat === cat));
-  const total = hits.reduce((s,t) => s + t.amount, 0);
-  return { kind:"question", wantIn, cat, plabel, total, count:hits.length };
-}
-
-/* --- fenêtre de l'assistant --- */
-function modalAssist(){
-  openModal(
-    '<h3>Assistant</h3>'
-    + '<input id="as_in" class="asst-in" type="text" placeholder="Ex : kebab 12 hier" autocomplete="off">'
-    + '<div class="asst-ex">'
-      + ['kebab 12 hier','reçu 50 argent de poche','retire 20 en liquide',
-         'combien j\'ai dépensé en courses ce mois','range carrefour dans Courses']
-        .map(x => '<button data-ex="'+esc(x)+'">'+esc(x)+'</button>').join("")
-    + '</div>'
-    + '<div id="as_out"></div>'
-    + '<div class="hint" style="margin-top:12px">Tout est analysé sur ton Mac : rien n\'est envoyé sur Internet, et ça ne coûte rien.</div>'
-    + '<div class="acts"><button class="btn" data-cancel>Fermer</button><button class="btn btn-p" data-ok>Faire</button></div>'
-  );
-
-  const inp = ov.querySelector("#as_in");
-  const out = ov.querySelector("#as_out");
-  const okBtn = ov.querySelector("[data-ok]");
-  let cmd = { kind:"empty" };
-
-  function refresh(){
-    cmd = parseCmd(inp.value);
-    let html = "", canDo = false, action = "Faire";
-
-    if (cmd.kind === "empty"){
-      html = '<div class="k">En attente</div><div class="v" style="color:var(--tx3)">Écris ce que tu as dépensé, reçu, ou pose une question.</div>';
-    } else if (cmd.kind === "error"){
-      html = '<div class="k">Je n\'ai pas compris</div><div class="v">'+esc(cmd.msg)+'</div>';
-    } else if (cmd.kind === "question"){
-      html = '<div class="k">Réponse</div><div class="v">'
-        + (cmd.count
-            ? 'Tu as ' + (cmd.wantIn ? 'reçu ' : 'dépensé ') + '<b>' + fmt(cmd.total) + '</b>'
-              + (cmd.cat ? ' en ' + esc(cmd.cat) : "") + ' ' + esc(cmd.plabel)
-              + '<br><span style="color:var(--tx3)">' + cmd.count + ' opération' + (cmd.count>1?"s":"") + '</span>'
-            : 'Aucune opération' + (cmd.cat ? ' en ' + esc(cmd.cat) : "") + ' ' + esc(cmd.plabel) + '.')
-        + '</div>';
-    } else if (cmd.kind === "recat"){
-      html = '<div class="k">Reclassement</div><div class="v">'
-        + (cmd.hits.length
-            ? '<b>' + cmd.hits.length + ' opération' + (cmd.hits.length>1?"s":"") + '</b> contenant « ' + esc(cmd.needle) + ' » '
-              + (cmd.hits.length>1?"passeront":"passera") + ' dans <span class="chip"><i style="width:8px;height:8px;border-radius:2px;background:'
-              + catColor(cmd.cat.name, cmd.cat.side) + ';display:inline-block"></i>' + esc(cmd.cat.name) + '</span>'
-              + '<br><span style="color:var(--tx3)">' + cmd.hits.slice(0,3).map(t => esc(t.label)).join(", ")
-              + (cmd.hits.length > 3 ? "…" : "") + '</span>'
-            : 'Aucune opération à reclasser pour « ' + esc(cmd.needle) +' ».')
-        + '</div>';
-      canDo = cmd.hits.length > 0;
-      action = "Reclasser";
-    } else if (cmd.kind === "tx"){
-      const t = cmd;
-      const label = t.type === "tr" ? "Virement" : (t.type === "in" ? "Entrée" : "Dépense");
-      const col = t.type === "in" ? "var(--pos)" : (t.type === "out" ? "var(--neg)" : "var(--tx2)");
-      html = '<div class="k">'+label+'</div><div class="v">'
-        + '<b style="color:'+col+';font-size:17px">' + (t.type === "in" ? "+" : t.type === "out" ? "−" : "") + fmt(t.amount) + '</b>'
-        + ' &nbsp;' + esc(t.label)
-        + '<br><span class="chip">' + esc(dayLabel(t.date)) + '</span>'
-        + (t.type === "tr"
-            ? '<span class="chip">' + esc(t.from.name) + ' → ' + esc((t.to||{name:"?"}).name) + '</span>'
-            : '<span class="chip">' + esc((acc(t.accountId)||{name:"?"}).name) + '</span>'
-              + '<span class="chip"><i style="width:8px;height:8px;border-radius:2px;background:'
-                + catColor(t.cat, t.type) + ';display:inline-block"></i>' + esc(t.cat) + '</span>')
-        + '</div>';
-      canDo = true;
-      action = "Ajouter";
-    }
-    out.innerHTML = html;
-    okBtn.textContent = action;
-    okBtn.disabled = !canDo;
-  }
-
-  inp.oninput = refresh;
-  ov.querySelector(".asst-ex").onclick = e => {
-    const b = e.target.closest("[data-ex]");
-    if (b){ inp.value = b.dataset.ex; inp.focus(); refresh(); }
-  };
-  ov.querySelector("[data-cancel]").onclick = closeModal;
-
-  okBtn.onclick = () => {
-    if (cmd.kind === "tx"){
-      const t = { id:uid(), type:cmd.type, amount:cmd.amount, label:cmd.label, date:cmd.date };
-      if (cmd.type === "tr"){ t.from = cmd.from.id; t.to = cmd.to.id; }
-      else { t[cmd.type === "in" ? "to" : "from"] = cmd.accountId; t.cat = cmd.cat; }
-      S.tx.push(t); save(); closeModal(); render();
-      toast("Ajouté : " + t.label + " · " + fmt(t.amount), "Annuler",
-            () => { S.tx = S.tx.filter(x => x.id !== t.id); save(); render(); });
-    } else if (cmd.kind === "recat"){
-      const before = cmd.hits.map(t => ({ id:t.id, cat:t.cat }));
-      cmd.hits.forEach(t => { t.cat = cmd.cat.name; });
-      save(); closeModal(); render();
-      toast(before.length + " opération" + (before.length>1?"s reclassées":" reclassée"), "Annuler", () => {
-        before.forEach(b => { const t = S.tx.find(x => x.id === b.id); if (t) t.cat = b.cat; });
-        save(); render();
-      });
-    }
-  };
-
-  refresh();
-}
-
 /* ============================ synchronisation Google Drive ============================ */
 /* Les données sont rangées dans un dossier privé de TON Drive, invisible depuis drive.google.com
    et lisible seulement par cette app. Google ne peut pas y voir autre chose. */
@@ -2370,9 +1998,26 @@ const Sync = {
   available(){ return location.protocol === "http:" || location.protocol === "https:"; },
   on(){ return !!(S.sync && S.sync.enabled) && this.available(); },
 
+  /** la bibliothèque Google est-elle chargée ? */
+  gisReady(){ return !!(window.google && google.accounts && google.accounts.oauth2); },
+
+  /** (re)charge la bibliothèque Google si le premier chargement a échoué */
+  loadGIS(){
+    if (this.gisReady() || this.loading) return;
+    this.loading = true;
+    const s = document.createElement("script");
+    s.src = "https://accounts.google.com/gsi/client";
+    s.async = true;
+    s.onload  = () => { this.loading = false; setSyncStatus("Google chargé, réessaie"); if (!ov.hidden) drawSyncModal(); };
+    s.onerror = () => { this.loading = false; setSyncStatus("Google injoignable — vérifie ta connexion"); if (!ov.hidden) drawSyncModal(); };
+    document.head.appendChild(s);
+    setSyncStatus("Chargement de Google…");
+  },
+
   ensureClient(){
     if (this.client) return this.client;
-    if (!(window.google && google.accounts && google.accounts.oauth2)) return null;
+    if (!this.gisReady()) return null;
+    try{
     this.client = google.accounts.oauth2.initTokenClient({
       client_id: GOOGLE_CLIENT_ID,
       scope: DRIVE_SCOPE,
@@ -2383,19 +2028,36 @@ const Sync = {
           this.tokenExp = Date.now() + ((resp.expires_in || 3600) * 1000) - 60000;
           waiting.forEach(f => f());
         } else {
-          setSyncStatus("Connexion Google refusée");
+          const why = resp && resp.error ? resp.error : "refusée";
+          setSyncStatus("Connexion Google " + why);
+          if (!ov.hidden) drawSyncModal();
         }
       }
     });
+    }catch(e){
+      setSyncStatus("Identifiant Google refusé : " + e.message);
+      return null;
+    }
     return this.client;
   },
 
   withToken(fn, interactive){
     if (this.token && Date.now() < this.tokenExp) return fn();
     const c = this.ensureClient();
-    if (!c){ setSyncStatus("Google n'a pas pu être chargé"); return; }
+    if (!c){
+      // bibliothèque absente : on retente de la charger, l'utilisateur reclique ensuite
+      this.loadGIS();
+      if (!ov.hidden) drawSyncModal();
+      return;
+    }
     this.pending.push(fn);
-    c.requestAccessToken({ prompt: interactive ? "consent" : "" });
+    try{
+      c.requestAccessToken({ prompt: interactive ? "consent" : "" });
+    }catch(e){
+      this.pending = [];
+      setSyncStatus("Impossible d'ouvrir Google : " + e.message);
+      if (!ov.hidden) drawSyncModal();
+    }
   },
 
   async api(url, opts){
@@ -2528,6 +2190,10 @@ function drawSyncModal(){
       + '<div class="v" id="syncState">' + esc(syncStatus || (Sync.on() ? "Connecté" : "Pas encore connecté")) + '</div>'
     + '</div>'
     + (last ? '<div class="hint" style="margin-top:8px">Dernier échange : ' + esc(last) + '</div>' : "")
+    + '<div class="hint" style="margin-top:8px">'
+      + 'Bibliothèque Google : ' + (Sync.gisReady() ? "chargée" : "<b style=\'color:var(--neg)\'>absente</b>")
+      + ' · adresse : ' + esc(location.origin || location.protocol)
+    + '</div>'
     + '<div class="hint" style="margin-top:12px">'
       + 'Tes données sont rangées dans un dossier privé de ton Google Drive, réservé à cette app. '
       + 'Le Mac et le téléphone lisent le même fichier : la version la plus récente gagne. '
@@ -2568,7 +2234,7 @@ function hideToast(){
 
 /* --- menu « Plus » (téléphone) --- */
 const MORE = [
-  ["assist","Assistant"], ["cats","Catégories"], ["csv","Importer un relevé"],
+  ["cats","Catégories"], ["csv","Importer un relevé"],
   ["sync","Synchronisation"], ["export","Sauvegarder"], ["import","Restaurer"]
 ];
 function modalMore(){
@@ -2584,7 +2250,6 @@ function modalMore(){
 /** actions communes à la barre latérale et au menu « Plus » */
 function sideAction(act){
   if (act === "sync")   return modalSync();
-  if (act === "assist") return modalAssist();
   if (act === "cats")   return modalCats();
   if (act === "csv")    return openCsvPicker(null);
   if (act === "export") return doExport();
@@ -2638,6 +2303,8 @@ view.addEventListener("click", e => {
   const av = e.target.closest("[data-addvers]");   if (av){ modalVersement(av.dataset.addvers); return; }
   if (e.target.closest("[data-newhold]")){ modalAddHolding(); return; }
   const hd = e.target.closest("[data-hold]");      if (hd){ modalHolding(hd.dataset.hold); return; }
+  // en dernier : le clic sur la carte elle-même ouvre la page du compte
+  const oa = e.target.closest("[data-openacc]");   if (oa){ openAcc = oa.dataset.openacc; render(); return; }
   const et = e.target.closest("[data-edittx]");    if (et){ modalTx(et.dataset.edittx); return; }
 });
 
@@ -2663,14 +2330,12 @@ document.addEventListener("keydown", e => {
   if (!(e.metaKey || e.ctrlKey)) return;
   const k = e.key.toLowerCase();
   if (k === "n"){ e.preventDefault(); if (ov.hidden) modalTx(); }
-  if (k === "j"){ e.preventDefault(); if (ov.hidden) modalAssist(); }
 });
 
 window.__newTx  = () => { if (ov.hidden) modalTx(); };
 window.__export = doExport;
 window.__csv    = () => { if (ov.hidden) openCsvPicker(null); };
 window.__cats   = () => { if (ov.hidden) modalCats(); };
-window.__assist = () => { if (ov.hidden) modalAssist(); };
 window.__sync   = () => { if (ov.hidden) modalSync(); };
 
 render();
