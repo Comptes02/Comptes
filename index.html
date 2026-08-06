@@ -28,11 +28,13 @@
   --tx4:#9B9C94;           /* purement décoratif : filets, icônes vides */
 
   --acc:#1E5C48;
+  --asset:#349091;
+  --acc-2:#3C5D96;      /* l'épargne : disponible, mais pas tout de suite */   /* la couleur de « placé », la même partout */      /* l'argent placé, distinct du vert des comptes */
   --acc-hover:#174C3B;
   --acc-soft:#E4EFE9;
 
   --pos:#1E7A50;
-  --neg:#B24029;
+  --neg:#A34A32;
 
   /* barre latérale sombre : c'est elle qui structure l'écran */
   --side:#141917;
@@ -135,16 +137,107 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 /* ---------- cartes ---------- */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
       padding:20px 22px;box-shadow:var(--sh-2)}
-.card h3,.sect{font-size:11px;font-weight:650;color:var(--tx3);text-transform:uppercase;
-               letter-spacing:.09em;margin-bottom:16px}
+/* carte secondaire : posée sur le fond, sans ombre — elle ne doit pas peser autant
+   que la liste principale à côté d'elle. Avant, six rectangles de poids identique. */
+.card.sub{box-shadow:var(--sh-1);border-color:var(--line-2)}
+.card.sub h3{color:var(--tx2)}
+/* niveau 1 — titre de carte : lisible, pas une étiquette technique */
+.card h3{font-size:14px;font-weight:640;color:var(--tx);letter-spacing:-.015em;margin-bottom:16px}
+/* niveau 2 — intertitre dans une carte */
+.sect{font-size:11px;font-weight:650;color:var(--tx3);text-transform:uppercase;
+      letter-spacing:.09em;margin-bottom:16px}
 .card .head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
 .card .head h3{margin:0}
 
 /* ---------- bandeau principal ---------- */
-.hero{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+/* LE BANDEAU DU CAPITAL — la seule chose sur laquelle l'accueil mise.
+   Le chiffre et sa courbe côte à côte : on voit le montant ET la trajectoire d'un
+   coup d'œil. En dessous, les trois parts avec leur propre barre de proportion. */
+/* le graphique d'évolution */
+.lc{position:relative;width:100%;display:block}
+.lc svg{display:block;max-width:100%}
+.lc .dot{filter:drop-shadow(0 1px 2px rgba(20,26,22,.18))}
+.lc .gl{stroke:var(--line-2);stroke-width:1;vector-effect:non-scaling-stroke}
+.lc .gt{fill:var(--tx4);font-size:10.5px;font-weight:540;font-variant-numeric:tabular-nums;
+        letter-spacing:.01em}
+.lc .cross{stroke:var(--tx4);stroke-width:1;stroke-dasharray:3 3;vector-effect:non-scaling-stroke}
+.lc-tip{position:absolute;top:0;transform:translateX(-50%);pointer-events:none;
+  background:var(--side);color:#F2F4F2;border-radius:8px;padding:5px 9px;white-space:nowrap;
+  box-shadow:0 6px 18px -8px rgba(20,26,22,.5);z-index:2}
+.lc-tip b{display:block;font-size:12.5px;font-weight:620;font-variant-numeric:tabular-nums}
+
+.lc-leg{display:flex;flex-wrap:wrap;gap:22px;margin-top:14px;padding-left:56px}
+.lc-leg span{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--tx3)}
+.lc-leg .sw{width:12px;height:12px;border-radius:3.5px;flex:0 0 12px}
+/* les pastilles reprennent exactement les dégradés des aires du graphique */
+.lc-leg .sw-verse{background:linear-gradient(180deg,#63BFD6,#1B4A6B)}
+.lc-leg .sw-gain{background:linear-gradient(180deg,#5FD39A,#2C8C5B)}
+.lc-leg b{color:var(--tx);font-weight:640;margin-left:2px}
+@media(max-width:760px){ .lc-leg{padding-left:0;gap:14px} }
+.lc-tip span{display:block;font-size:10.5px;color:#9AA39C;margin-top:1px}
+.cap{background:var(--surface);border:1px solid var(--line);border-radius:calc(var(--r) + 4px);
+     box-shadow:var(--sh-2);overflow:hidden}
+.cap-top{display:flex;align-items:center;gap:28px;padding:26px 28px 20px}
+.cap-top > div:first-child{flex:0 0 auto}
+.cap .lbl{font-size:11px;font-weight:650;color:var(--tx3);text-transform:uppercase;letter-spacing:.09em}
+.cap-big{font-size:46px;font-weight:680;letter-spacing:-.035em;line-height:1.02;margin-top:8px;
+         color:var(--tx);font-variant-numeric:tabular-nums}
+.cap-evo{display:flex;align-items:center;gap:9px;margin-top:11px;font-size:12.5px;color:var(--tx3)}
+.cap-graph{flex:1;min-width:0;align-self:stretch;display:flex;align-items:flex-end}
+
+.cap-graph:empty{display:none}
+/* les trois parts : une bande posée au bas du bandeau, sur fond légèrement teinté */
+.cap-parts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+           background:var(--line-2);border-top:1px solid var(--line-2)}
+.cpart{background:var(--surface);padding:15px 28px 17px}
+.ck{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:580;color:var(--tx2)}
+.ck i{width:9px;height:9px;border-radius:3px;flex:0 0 9px}
+.cv{font-size:21px;font-weight:650;letter-spacing:-.025em;color:var(--tx);margin-top:6px}
+.cs{font-size:11.5px;color:var(--tx3);margin-top:3px}
+.cbar{height:4px;border-radius:99px;background:var(--line-2);margin-top:9px;overflow:hidden}
+.cbar i{display:block;height:100%;border-radius:99px}
+@media (max-width:760px){
+  .cap-top{flex-direction:column;align-items:stretch;gap:14px;padding:20px 18px 14px}
+  .cap-big{font-size:38px}
+  .cap-graph .chart{height:88px}
+  .cap-parts{grid-template-columns:1fr}
+  .cpart{padding:13px 18px 15px}
+}
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:calc(var(--r) + 4px);
       padding:26px 28px;box-shadow:var(--sh-2);position:relative;overflow:hidden;
       display:flex;align-items:center;gap:32px;flex-wrap:wrap}
-.hero-main{flex:0 0 auto;min-width:250px}
+.hero-main{flex:0 0 auto;min-width:250px;max-width:420px}
+/* l'en-tête sépare visuellement l'argent disponible de l'argent placé */
+.sbar{display:flex;gap:3px;height:8px;margin-top:16px;border-radius:99px;overflow:hidden;max-width:340px}
+.sbar i{display:block;border-radius:99px}
+.hero-split{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-self:stretch;
+  align-items:center;padding-left:34px;border-left:1px solid var(--line-2);min-width:300px}
+.hero-split .spart + .spart{padding-left:32px;border-left:1px solid var(--line-2)}
+.spart .sk{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:560;color:var(--tx2);
+  letter-spacing:.01em}
+.spart .sk i{width:10px;height:10px;border-radius:3px;flex:0 0 9px}
+.spart .sp{margin-left:auto;color:var(--tx4);font-weight:500;font-variant-numeric:tabular-nums}
+.spart .sv{font-size:23px;font-weight:640;letter-spacing:-.025em;margin-top:5px;color:var(--tx)}
+.spart .ss{font-size:12px;color:var(--tx3);margin-top:2px;text-wrap:pretty}
+/* lien discret dans un en-tête de carte */
+.lnk{font-size:12.5px;color:var(--tx3);padding:5px 9px;border-radius:8px;background:none;border:0;
+  cursor:pointer;transition-property:color,background-color;transition-duration:130ms}
+.lnk:hover{color:var(--acc);background:var(--acc-soft)}
+/* carte secondaire : posée sur le fond, sans ombre — elle ne doit pas peser
+   autant que la liste principale à côté d'elle */
+/* « À surveiller » : la seule chose de l'accueil qui appelle une action.
+   Un point coloré porte l'urgence, le texte reste sobre. */
+.watch{display:flex;flex-direction:column;gap:2px}
+.wrow{display:flex;gap:12px;align-items:flex-start;padding:10px 10px 10px 8px;border-radius:10px}
+.wrow + .wrow{box-shadow:inset 0 1px 0 var(--line-2)}
+.wrow[data-openacc]{cursor:pointer}
+.wrow[data-openacc]:hover{background:var(--surface-2)}
+.wrow > i{width:7px;height:7px;border-radius:99px;flex:0 0 7px;margin-top:6px;background:var(--tx4)}
+.wrow.urgent > i{background:var(--neg)}
+.wrow .wt{font-size:13.5px;font-weight:590;color:var(--tx);letter-spacing:-.005em;text-wrap:pretty}
+.wrow .ws{font-size:12.5px;color:var(--tx3);margin-top:2px;text-wrap:pretty}
+.wrow.urgent .ws{color:var(--neg)}
+.card .head b.num{font-size:14px;font-weight:640;color:var(--tx);letter-spacing:-.015em}
 .hero-alloc{flex:1;min-width:280px;padding-left:32px;border-left:1px solid var(--line-2)}
 .hero-alloc:empty{display:none}
 .hero .lbl{font-size:11px;font-weight:650;color:var(--tx3);text-transform:uppercase;letter-spacing:.09em}
@@ -196,8 +289,8 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 /* ---------- liste de comptes ---------- */
 .alist{display:flex;flex-direction:column}
 .agroup{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
-        padding:16px 2px 6px;font-size:10.5px;font-weight:650;color:var(--tx3);
-        text-transform:uppercase;letter-spacing:.09em}
+        padding:18px 2px 7px;font-size:10.5px;font-weight:620;color:var(--tx4);
+        text-transform:uppercase;letter-spacing:.1em}
 .agroup:first-child{padding-top:0}
 .agroup b{font-size:12.5px;letter-spacing:-.01em;text-transform:none;color:var(--tx2);font-weight:600;
           font-variant-numeric:tabular-nums}
@@ -219,8 +312,8 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 
 /* ---------- opérations ---------- */
 .list{display:flex;flex-direction:column}
-.daylbl{font-size:10.5px;color:var(--tx3);font-weight:650;padding:16px 2px 6px;
-        text-transform:uppercase;letter-spacing:.08em}
+.daylbl{font-size:10.5px;color:var(--tx4);font-weight:620;padding:18px 2px 7px;
+        text-transform:uppercase;letter-spacing:.1em}
 .list > .daylbl:first-child{padding-top:0}
 .row{position:relative;display:flex;align-items:center;gap:13px;padding:9px 24px 9px 10px;border-radius:10px;
      transition-property:background-color;transition-duration:120ms}
@@ -279,7 +372,9 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 .pnav button:hover{background:var(--surface-2);color:var(--tx)}
 .pnav svg{width:14px;height:14px}
 .pnav .plabel{font-size:12.5px;font-weight:600;padding:2px 10px;min-width:112px;text-align:center;
-              text-transform:capitalize;color:var(--tx)}
+              color:var(--tx)}
+/* `capitalize` mettait une majuscule à CHAQUE mot : « Depuis Le Début ». Une seule suffit. */
+.pnav .plabel::first-letter{text-transform:uppercase}
 
 .bchart{position:relative;padding-left:56px;height:190px}
 .bgrid{position:absolute;left:0;right:0;top:0;bottom:26px}
@@ -305,19 +400,21 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 .dash > *{min-width:0}
 .dcol{display:contents}
 @media (max-width:1023px){
-  .d-hero{order:1} .d-stats{order:2} .d-acc{order:3} .d-ops{order:4}
+  .d-inv{order:1} .d-watch{order:2} .d-acc{order:3} .d-ops{order:4}
 }
 @media (min-width:1024px){
-  .dash{grid-template-columns:minmax(0,1fr) 322px;align-items:start}
-  .dcol{display:contents}
-  .d-hero{grid-column:1 / -1}
-  .d-stats{grid-column:1 / -1}
-  .d-ops{grid-column:1}
-  .d-acc{grid-column:2}
+  /* Deux vraies colonnes qui coulent chacune de leur côté. Avec `display:contents`
+     et une grille, les deux colonnes partagent la hauteur de chaque rangée : une
+     carte courte à gauche laissait un grand vide sous elle parce qu'une carte
+     longue à droite étirait la rangée. */
+  .dash{display:flex;align-items:flex-start;gap:var(--gap)}
+  .dcol{display:flex;flex-direction:column;gap:var(--gap);min-width:0}
+  .dcol:first-child{flex:1}
+  .dcol:last-child{flex:0 0 322px}
 }
 @media (min-width:1300px){
   :root{--gut:34px}
-  .dash{grid-template-columns:minmax(0,1fr) 368px}
+  .dcol:last-child{flex-basis:368px}
 }
 
 /* ---------- placements ---------- */
@@ -388,6 +485,9 @@ main{flex:1;height:100vh;overflow-y:auto;padding-bottom:56px;background:var(--bg
 .f input:focus,.f select:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(30,92,72,.13)}
 .f select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239B9C94' stroke-width='2.5' stroke-linecap='round'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
 .f .amt-in{font-size:24px;font-weight:640;letter-spacing:-.03em;padding:11px 12px}
+/* `display:grid` d'une règle de classe l'emporte sur le `display:none` que le
+   navigateur applique à [hidden] : sans ça, un bloc masqué reste visible. */
+[hidden]{display:none !important}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 .acts{display:flex;gap:9px;margin-top:20px}
 .acts .btn{flex:1;padding:10px;text-align:center}
@@ -595,18 +695,23 @@ const Store = {
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const todayISO = () => new Date().toLocaleDateString("sv-SE");
 
-/* Palette des catégories, construite en OKLCH : clarté 0,545 et chroma 0,095 identiques
-   pour toutes, teintes réparties régulièrement. Conséquence : aucune couleur ne pèse plus
-   qu'une autre dans un graphique, et toutes tiennent le même contraste (4,2 à 4,7:1) sur
-   l'ivoire du fond. La plage du rouge franc est écartée — elle signifie « perte ». */
-const PALETTE = ["#418054","#28799E","#816F25","#895D92","#5170A8","#976230",
-                 "#995878","#1A826E","#607B3B","#6E67A4"];
-/* les entrées sont plus rares : 6 teintes suffisent, décalées de celles des dépenses */
-const PALETTE_IN = ["#35815D","#047E92","#8E6826","#79639F","#3A76A3","#6B7732"];
-/* Répartition du patrimoine : que des tons « neutres ». Le rouge est réservé aux pertes. */
-/* teintes franchement distinctes : deux verts proches se confondent dans un anneau */
-const ALLOC_PALETTE = ["#1E5C48","#3D6E96","#A5842E","#7A4E7E","#8A5A3C","#2E7B7B",
-                       "#5C7A2E","#6B6F8C","#96476B","#4A6E8C"];
+/* LA palette de l'app — une seule, pour les catégories, les types de compte et les
+   répartitions. Neuf teintes, de l'orange brûlé à l'ardoise, en évitant les prunes et
+   les roses qui jureraient avec l'ivoire.
+   Ce qui compte ici c'est l'AMPLITUDE DE CLARTÉ (0,42 à 0,66). Une première version
+   tenait la clarté serrée pour que tout « aille ensemble » : les teintes s'accordaient
+   mais devenaient indiscernables — à écart net, il n'en restait que 4 sur 12. C'est la
+   clarté, pas la sobriété, qui sépare deux couleurs voisines.
+   Garanties vérifiées par les tests : aucun doublon, contraste ≥ 3:1 sur l'ivoire,
+   aucune teinte à moins de 11 du vert de marque ni du rouge des pertes — sans quoi
+   « le vert de l'app » et « le vert d'une catégorie » se confondent.
+   L'ordre place les plus contrastées côte à côte : les catégories reçoivent des index
+   qui se suivent. */
+const PALETTE = ["#3C5D96","#A9873E","#694324","#6D8BC9","#63955B","#223F5B","#53767A","#577431","#349091"];
+/* les entrées piochent dans la même palette, décalées : une entrée et une dépense
+   côte à côte ne portent jamais la même couleur */
+const PALETTE_IN = PALETTE.slice(4).concat(PALETTE.slice(0,4));
+const ALLOC_PALETTE = PALETTE;   // même palette : une couleur veut dire une seule chose
 const DEF_OUT = ["Courses","Restau / sorties","Transport","Abonnements","Vêtements","Jeux / loisirs","Tech","Cadeaux","Santé","Autre"];
 const DEF_IN  = ["Argent de poche","Job / petit boulot","Cadeau reçu","Remboursement","Vente","Autre"];
 
@@ -637,9 +742,13 @@ if (!S.marks) S.marks = [];
 if (!S.tx) S.tx = [];
 /** enregistre, horodate, et programme un envoi vers Google Drive si la synchro est active */
 let pushTimer = null;
+/* save() marque une VRAIE modification : il avance updatedAt et rev, ce qui donne
+   la priorité à cet appareil lors de la prochaine synchronisation. Une migration ou
+   une écriture technique doit passer par Store.save(S) et surtout pas par ici. */
 function save(){
   S.updatedAt = new Date().toISOString();
   S.rev = (S.rev || 0) + 1;
+  S.schema = SCHEMA;
   Store.save(S);
   // save() est appelé par les migrations, avant que Sync ne soit défini.
   // `typeof` ne protège pas d'une zone morte temporelle : il faut intercepter.
@@ -689,15 +798,16 @@ function migrateState(){
   // Passe unique : l'ancienne palette mélangeait des clartés et des saturations
   // sans système, et attribuait parfois deux fois la même teinte. On repart de la
   // palette OKLCH, une fois pour toutes. Les couleurs choisies ensuite sont gardées.
-  if (!S.catsV2){
+  if (!S.catsV5){
     for (const side of ["out","in"]){
       const pal = side === "in" ? PALETTE_IN : PALETTE;
       (S.cats[side] || []).forEach((c, i) => { c.color = pal[i % pal.length]; });
     }
-    S.catsV2 = true; changed = true;
+    S.catsV5 = true; changed = true;
   }
+  if (!S.planned) S.planned = [];
   if (!S.sync) S.sync = { enabled:false, last:null };
-  if (changed){ S.v = 3; save(); }
+  if (changed){ S.v = 3; Store.save(S); }   // surtout pas save() : voir plus bas
 }
 migrateState();
 
@@ -708,12 +818,12 @@ function catColor(name, side){
 }
 
 const KINDS = {
-  courant:{ label:"Compte courant",  color:"#2F6154", icon:'<rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/>' },
-  credit: { label:"Carte de crédit", color:"#8A5A3C", icon:'<rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 9h20M6 15h4"/>' },
-  cash:   { label:"Liquide",         color:"#A5842E", icon:'<rect x="2" y="7" width="20" height="10" rx="2"/><circle cx="12" cy="12" r="2.5"/>' },
-  epargne:{ label:"Épargne",         color:"#3D6E96", icon:'<path d="M12 3l9 5v3c0 5-3.8 9-9 10-5.2-1-9-5-9-10V8z"/>' },
-  invest: { label:"Investissement",  color:"#7A4E7E", icon:'<path d="M3 17l6-6 4 4 8-8M21 7h-5M21 7v5"/>' },
-  immo:   { label:"Immobilier",      color:"#8A5A3C", icon:'<path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-6h4v6"/>' }
+  courant:{ label:"Compte courant",  color:"#223F5B", icon:'<rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/>' },
+  credit: { label:"Carte de crédit", color:"#694324", icon:'<rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 9h20M6 15h4"/>' },
+  cash:   { label:"Liquide",         color:"#A9873E", icon:'<rect x="2" y="7" width="20" height="10" rx="2"/><circle cx="12" cy="12" r="2.5"/>' },
+  epargne:{ label:"Épargne",         color:"#3C5D96", icon:'<path d="M12 3l9 5v3c0 5-3.8 9-9 10-5.2-1-9-5-9-10V8z"/>' },
+  invest: { label:"Investissement",  color:"#349091", icon:'<path d="M3 17l6-6 4 4 8-8M21 7h-5M21 7v5"/>' },
+  immo:   { label:"Immobilier",      color:"#53767A", icon:'<path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-6h4v6"/>' }
 };
 
 /** comptes qui se valorisent (cours de bourse ou montant relevé), par opposition aux comptes bancaires */
@@ -877,11 +987,94 @@ function value(id){
 }
 
 /** somme réellement placée : montant noté le plus récent + versements postérieurs */
+/* CE QU'IL A RÉELLEMENT MIS.
+   Un montant noté sert à deux choses très différentes : le PREMIER dit « voilà ce que
+   j'ai investi », les suivants disent « voilà ce que ça vaut maintenant ». Se baser sur
+   le dernier, comme avant, faisait que la moindre réévaluation réécrivait la mise de
+   départ : il avait investi 400 €, ça descend à 395 €, et l'app annonçait « 395 € placés,
+   0 € de gain » au lieu de « 400 € placés, −5 € ». */
 function investRef(id){
-  const anchors = anchorsOf(id, FAR);
-  if (!anchors.length) return Math.round(((acc(id) || {}).start || 0) * 100) / 100;
-  return Math.round(anchors.reduce((s,a) => s + a.amount, 0) * 100) / 100;
+  const marks = S.marks.filter(m => m.accountId === id)
+                  .sort((a,b) => a.date.localeCompare(b.date));
+  const premier = marks[0] || null;
+  let total = premier ? premier.value : 0;
+  for (const t of S.tx){
+    // ce qui précède le premier montant noté est déjà compris dedans
+    if (premier && t.date <= premier.date) continue;
+    const into  = (t.to === id   && (t.type === "tr" || t.type === "in"));
+    const outOf = (t.from === id && (t.type === "tr" || t.type === "out"));
+    if (into) total += t.amount;
+    else if (outOf) total -= t.amount;
+  }
+  if (!premier && !total) return Math.round(((acc(id) || {}).start || 0) * 100) / 100;
+  return Math.round(total * 100) / 100;
 }
+
+/** la date à laquelle il a commencé à mettre de l'argent sur ce placement */
+function debutPlacement(id){
+  const marks = S.marks.filter(m => m.accountId === id).map(m => m.date);
+  const vers  = S.tx.filter(t => t.to === id || t.from === id).map(t => t.date);
+  const tout = marks.concat(vers).sort();
+  return tout.length ? tout[0] : null;
+}
+/** solde d'un compte bancaire à une date donnée */
+function soldeAt(id, date){
+  const a = acc(id); if (!a) return 0;
+  let b = a.start || 0;
+  for (const t of S.tx){
+    if (t.date > date) continue;
+    if (t.type === "in"  && t.to   === id) b += t.amount;
+    if (t.type === "out" && t.from === id) b -= t.amount;
+    if (t.type === "tr"){
+      if (t.from === id) b -= t.amount;
+      if (t.to   === id) b += t.amount;
+    }
+  }
+  return Math.round(b * 100) / 100;
+}
+
+/** le patrimoine complet à une date : comptes au solde de l'époque, placements au cours de l'époque */
+function patrimoineAt(date){
+  return Math.round(S.accounts.reduce((s,a) =>
+    s + (isAsset(a) ? valueAt(a.id, date) : soldeAt(a.id, date)), 0) * 100) / 100;
+}
+
+/** la période couverte par la courbe, calée sur le sélecteur Jour / Mois / Année / Tout */
+function fenetreCourbe(){
+  const [a, b] = periodBounds();
+  const auj = todayISO();
+  const fin = b > auj ? auj : b;
+  const tout = S.tx.map(t => t.date).concat(S.marks.map(m => m.date)).sort();
+  const origine = tout.length ? tout[0] : shiftDays(fin, -365);
+
+  if (P.mode === "all") return { debut: origine, fin, libelle: "depuis le début" };
+
+  // Un mois qui vient de commencer ne fait pas une courbe. On garde le sens du
+  // sélecteur mais on garantit assez de matière pour qu'il y ait quelque chose à lire.
+  const mini = P.mode === "day" ? 30 : P.mode === "month" ? 30 : 120;
+  const debutVoulu = P.mode === "day" ? shiftDays(fin, -30) : a;
+  const jours = Math.round((new Date(fin+"T12:00:00") - new Date(debutVoulu+"T12:00:00")) / 86400000);
+  const debut = jours >= mini ? debutVoulu : shiftDays(fin, -mini);
+  const vrai = debut < origine ? origine : debut;
+
+  const libelle = P.mode === "day" ? "30 derniers jours"
+                : jours >= mini ? periodLabel().toLowerCase()
+                : (P.mode === "month" ? "30 derniers jours" : "4 derniers mois");
+  return { debut: vrai, fin, libelle };
+}
+
+/** la courbe du patrimoine sur la période affichée — le chiffre qui l'intéresse */
+function patrimoineSeries(){
+  const { debut, fin } = fenetreCourbe();
+  const jours = Math.round((new Date(fin+"T12:00:00") - new Date(debut+"T12:00:00")) / 86400000);
+  if (jours < 3) return [];
+  const pas = Math.max(1, Math.round(jours / 60));
+  const pts = [];
+  for (let d = debut; d <= fin; d = shiftDays(d, pas)) pts.push({ d, y: patrimoineAt(d) });
+  if (pts[pts.length-1].d !== fin) pts.push({ d: fin, y: patrimoineAt(fin) });
+  return pts.length >= 3 ? pts : [];
+}
+
 const netWorth = () => Math.round(S.accounts.reduce((s,a) => s + value(a.id), 0) * 100) / 100;
 
 const sum = (list, type) => list.reduce((s,t) => s + (t.type === type && !t.adj ? t.amount : 0), 0);
@@ -1022,7 +1215,7 @@ function render(){
   document.getElementById("backBtn").hidden = !openAcc;
   document.getElementById("ttl").textContent = openAcc ? acc(openAcc).name : TABS.find(t => t.id === tab).label;
 
-  topExtra.innerHTML = (openAcc || tab !== "invest")
+  topExtra.innerHTML = true
     ? '<div class="period">'
       + '<div class="seg-sm">'
         + [["day","Jour","J"],["month","Mois","M"],["year","Année","A"],["all","Tout","Tout"]].map(([m,l,c]) =>
@@ -1038,6 +1231,7 @@ function render(){
 
   if (openAcc) viewAccount(openAcc);
   else ({ home:viewHome, ops:viewOps, invest:viewInvest, bilan:viewBilan })[tab]();
+  brancherCourbes(view);        // le survol des courbes se rebranche à chaque rendu
   view.scrollTop = 0;
   main.scrollTop = 0;
 }
@@ -1106,9 +1300,9 @@ const ICO_CSV  = '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2
 /* ---------- Accueil ---------- */
 
 /** comptes regroupés par banque (ou par type quand la banque n'est pas renseignée) */
-function accountGroups(){
+function accountGroups(filtre){
   const map = new Map();
-  for (const a of S.accounts){
+  for (const a of S.accounts.filter(filtre || (() => true))){
     const label = (a.bank || "").trim() || (KINDS[a.kind] || KINDS.courant).label;
     if (!map.has(label)) map.set(label, []);
     map.get(label).push(a);
@@ -1187,7 +1381,7 @@ const plainTxt = s => String(s || "").toLowerCase()
   .replace(/[àâä]/g,"a").replace(/[éèêë]/g,"e").replace(/[îï]/g,"i")
   .replace(/[ôö]/g,"o").replace(/[ùûü]/g,"u").replace(/ç/g,"c");
 
-function accountRow(a){
+function accountRow(a, sansBanque){
   const k = KINDS[a.kind] || KINDS.courant;
   const v = value(a.id);
   let sb = "";
@@ -1201,57 +1395,225 @@ function accountRow(a){
     const mot = plainTxt(k.label).split(" ").pop();
     if (!plainTxt(a.name).includes(mot)) sb = k.label;
   }
+  // « CBC » figure déjà en tête de groupe : inutile de le répéter sur chaque ligne
+  let nom = a.name;
+  if (sansBanque && a.bank){
+    const court = nom.replace(new RegExp("\\s*" + a.bank.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s*$", "i"), "").trim();
+    if (court) nom = court;
+  }
   return '<div class="arow" data-openacc="' + a.id + '">'
     + '<div class="ic" style="background:' + k.color + '1f;color:' + k.color + '">' + svg(k.icon, 2) + '</div>'
-    + '<div class="mid"><div class="nm">' + esc(a.name) + '</div>'
+    + '<div class="mid"><div class="nm">' + esc(nom) + '</div>'
       + (sb ? '<div class="sb">' + esc(sb) + '</div>' : "") + '</div>'
     + '<div class="amt num' + (v < 0 ? " negv" : "") + '">' + fmt(v) + '</div></div>';
 }
 
+/* L'ACCUEIL RÉPOND À TROIS QUESTIONS, DANS CET ORDRE :
+     1. combien je peux dépenser maintenant       → le bandeau
+     2. qu'est-ce qui demande une action           → « À surveiller »
+     3. où est mon argent                          → mes comptes, mes placements
+   Ce qui a été RETIRÉ : la bande Entrées/Dépenses/Reste (elle est déjà sur Bilan et sur
+   Opérations) et la longue liste d'opérations (c'est toute la page Opérations). L'accueil
+   ne doit pas être un échantillon des autres pages, sinon il ne sert à rien. */
+
+/** l'argent réellement disponible : comptes courants et liquide, pas l'épargne ni les placements */
+const DISPONIBLE = ["courant", "cash", "credit"];
+const estDispo = a => DISPONIBLE.includes(a.kind);
+
+/** ce qui demande une action, du plus urgent au moins urgent */
+function aSurveiller(){
+  const out = [];
+
+  // un solde négatif, c'est de l'argent dû
+  for (const a of S.accounts.filter(x => !isAsset(x))){
+    const v = value(a.id);
+    if (v < -0.005){
+      out.push({ ton:"urgent", titre: esc(a.name),
+                 texte: fmt(Math.abs(v)) + (a.kind === "credit" ? " à rembourser" : " à découvert"),
+                 acc: a.id });
+    }
+  }
+
+  // les versements planifiés à une date précise, s'ils arrivent bientôt
+  for (const r of (S.planned || [])){
+    if (r.done) continue;
+    const dans = Math.round((new Date(r.date+"T12:00:00") - new Date(todayISO()+"T12:00:00")) / 86400000);
+    if (dans < 0 || dans > 14) continue;
+    const dest = (acc(r.to) || {}).name || "un placement";
+    out.push({ ton:"info", titre: fmt(r.amount) + " vers " + esc(dest),
+               texte: (dans === 0 ? "aujourd'hui" : dans === 1 ? "demain" : "dans " + dans + " jours")
+                      + " · versement planifié" });
+  }
+
+  // les versements automatiques qui tombent dans les dix jours
+  const auj = new Date(todayISO() + "T12:00:00"), jourAuj = auj.getDate();
+  for (const r of (S.recurring || [])){
+    let dans = r.day - jourAuj;
+    if (dans < 0) dans += 30;
+    if (dans > 10) continue;
+    const dest = (acc(r.to) || {}).name || "un placement";
+    out.push({ ton:"info", titre: fmt(r.amount) + " vers " + esc(dest),
+               texte: dans === 0 ? "aujourd'hui" : dans === 1 ? "demain" : "dans " + dans + " jours" });
+  }
+
+  // le rythme de dépense, projeté sur le mois entier
+  const p = rythmeDuMois();
+  if (p) out.push(p);
+  return out;
+}
+
+/** « à ce rythme, tu finiras le mois à X € » — comparé au mois précédent */
+function rythmeDuMois(){
+  const memo = { mode:P.mode, anchor:P.anchor };
+  P.mode = "month"; P.anchor = todayISO();
+  const ce = sum(periodTx(), "out");
+  const [deb, fin] = periodBounds();
+  P.mode = memo.mode; P.anchor = memo.anchor;
+
+  const jours = Math.max(1, Math.round((new Date(todayISO()+"T12:00:00") - new Date(deb+"T12:00:00")) / 86400000) + 1);
+  const total = Math.round((new Date(fin+"T12:00:00") - new Date(deb+"T12:00:00")) / 86400000) + 1;
+  if (ce <= 0 || jours >= total) return null;
+
+  const projete = ce / jours * total;
+  const avant = previousTotals();
+  // sous 30 € de dépenses, le mois précédent n'est pas une référence utilisable
+  const ref = avant && avant.out >= 30 ? avant.out : null;
+  let texte = "à ce rythme, " + fmt(projete) + " sur le mois";
+  let ton = "info";
+  if (ref){
+    const ecart = Math.round((projete - ref) / ref * 100);
+    if (ecart > 150){ ton = "urgent"; texte += " — bien plus que le mois dernier (" + fmt(ref) + ")"; }
+    else if (ecart > 15){ ton = "urgent"; texte += " — " + ecart + " % de plus que le mois dernier"; }
+    else if (ecart < -15) texte += " — " + Math.abs(ecart) + " % de moins que le mois dernier";
+    else texte += ", comme le mois dernier";
+  }
+  return { ton, titre: fmt(ce) + " dépensés en " + jours + " jour" + (jours > 1 ? "s" : ""), texte };
+}
+
 function viewHome(){
-  const list = periodTx();
-  const inM = sum(list, "in"), outM = sum(list, "out");
   document.getElementById("sub").textContent = periodLabel();
 
-  const groups = accountGroups();
-  const prev = previousTotals(), infos = statInfos(list, inM, outM);
-  const nAcc = S.accounts.length;
-  const recent = [...list].sort((a,b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id)).slice(0,8);
+  const dispoComptes = S.accounts.filter(estDispo);
+  const dispo   = Math.round(dispoComptes.reduce((s,a) => s + value(a.id), 0) * 100) / 100;
+  const epargne = Math.round(S.accounts.filter(a => a.kind === "epargne")
+                    .reduce((s,a) => s + value(a.id), 0) * 100) / 100;
+  const places  = holdingGroups();
+  const listeP  = S.accounts.filter(isAsset);
+  const investi = Math.round(places.reduce((s,g) => s + g.total, 0) * 100) / 100;
+  const total   = Math.round((dispo + epargne + investi) * 100) / 100;
 
-  view.innerHTML = '<div class="dash"><div class="dcol">'
+  const refP  = Math.round(listeP.reduce((s,a) => s + investRef(a.id), 0) * 100) / 100;
+  const gainP = Math.round((investi - refP) * 100) / 100;
 
-    + '<div class="hero d-hero">'
-      + '<div class="hero-main">'
-        + '<div class="lbl">Patrimoine total</div>'
-        + '<div class="big num">' + fmt(netWorth()) + '</div>'
-        + '<div class="delta">' + deltaChip(inM - outM) + '<span>sur ' + esc(periodLabel().toLowerCase())
-          + ' · ' + nAcc + ' compte' + (nAcc > 1 ? "s" : "") + '</span></div>'
+  const courbe = patrimoineSeries();
+  const depuis = courbe.length ? courbe[0].y : null;
+  const evol   = depuis != null ? Math.round((total - depuis) * 100) / 100 : null;
+
+  const banques = accountGroups(a => !isAsset(a));
+  const alertes = aSurveiller();
+  const recent  = [...periodTx()].sort((a,b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id)).slice(0,5);
+
+  view.innerHTML =
+    /* 1 — LE CAPITAL : le chiffre qu'il vient voir, et sa trajectoire */
+    '<div class="cap">'
+      + '<div class="cap-top">'
+        + '<div>'
+          + '<div class="lbl">Mon capital</div>'
+          + '<div class="cap-big num">' + fmt(total) + '</div>'
+          + '<div class="cap-evo">'
+            + (evol != null ? deltaChip(evol) + '<span>' + esc(fenetreCourbe().libelle) + '</span>'
+                            : '<span>La courbe apparaîtra dès que tu auras un peu d\'historique</span>')
+          + '</div>'
+        + '</div>'
+        + '<div class="cap-graph">'
+          + (courbe.length ? lineChart(courbe, 132, { axe:true }) : "") + '</div>'
       + '</div>'
-      + '<div class="hero-alloc">' + donutChart(groups) + '</div>'
+      + '<div class="cap-parts">'
+        + capPart("Placé",      investi, total, "var(--asset)",
+                  Math.abs(gainP) >= 0.005 ? (gainP > 0 ? "+" : "−") + fmt(Math.abs(gainP)) + " de gain"
+                                           : listeP.length + (listeP.length > 1 ? " placements" : " placement"))
+        + capPart("Épargne",    epargne, total, "var(--acc-2)", "de côté")
+        + capPart("Disponible", dispo,   total, "var(--acc)",
+                  dispoComptes.length + " compte" + (dispoComptes.length > 1 ? "s" : ""))
+      + '</div>'
     + '</div>'
 
-    + '<div class="stats d-stats">'
-      + stat("Entrées",  fmt(inM),  "pos", infoLine(compareLine(inM, prev && prev.in, false), infos[0]))
-      + stat("Dépenses", fmt(outM), "",    infoLine(compareLine(outM, prev && prev.out, true), infos[1]))
-      + stat("Reste",    fmtS(inM - outM), inM - outM >= 0 ? "pos" : "negv",
-             infoLine(compareLine(inM - outM, prev && (prev.in - prev.out), false), infos[2]))
+    + '<div class="dash"><div class="dcol">'
+
+    /* 2 — LES PLACEMENTS, tout en haut : c'est ce qui l'intéresse le plus */
+    + '<div class="card d-inv"><div class="head"><h3>Mes placements</h3>'
+      + '<button class="lnk" data-tab="invest">Tout voir</button></div>'
+      + (listeP.length
+          ? '<div class="alist">' + places.map(g =>
+              '<div class="agroup">' + esc(g.name) + '<b>' + fmt(g.total) + '</b></div>'
+              + g.accs.map(a => accountRow(a, true)).join("")).join("")
+            + '<button class="arow add" data-newhold="1">' + svg('<path d="M12 5v14M5 12h14"/>') + 'Nouveau placement</button></div>'
+          : '<div class="alist">' + emptyBox("Rien de placé pour l\'instant")
+            + '<button class="arow add" data-newhold="1">' + svg('<path d="M12 5v14M5 12h14"/>') + 'Nouveau placement</button></div>')
     + '</div>'
 
-    + '<div class="card d-ops"><h3>Dernières opérations</h3>'
+    + '<div class="card sub d-ops"><div class="head"><h3>Dernières opérations</h3>'
+      + '<button class="lnk" data-tab="ops">Tout voir</button></div>'
       + (recent.length ? txList(recent, false) : emptyBox("Aucune opération sur cette période"))
     + '</div>'
 
     + '</div><div class="dcol">'
 
-    + '<div class="card d-acc"><h3>Mes comptes</h3><div class="alist">'
-      + groups.map(g =>
+    /* 3 — ce qui demande une action, puis où dort l'argent */
+    + '<div class="card d-watch"><h3>À surveiller</h3>'
+      + (alertes.length
+          ? '<div class="watch">' + alertes.map(a =>
+              '<div class="wrow ' + a.ton + '"' + (a.acc ? ' data-openacc="' + a.acc + '"' : '') + '>'
+              + '<i></i><div><div class="wt">' + a.titre + '</div>'
+              + '<div class="ws">' + a.texte + '</div></div></div>').join("") + '</div>'
+          : '<div class="hint">Rien à signaler : aucun compte dans le rouge, '
+            + 'aucun versement imminent, et tes dépenses suivent ton rythme habituel.</div>')
+    + '</div>'
+
+    + '<div class="card sub d-acc"><div class="head"><h3>Mes comptes</h3>'
+      + '<b class="num">' + fmt(dispo + epargne) + '</b></div><div class="alist">'
+      + banques.map(g =>
           '<div class="agroup">' + esc(g.name) + '<b>' + fmt(g.total) + '</b></div>'
-          + g.accs.map(accountRow).join("")).join("")
+          + g.accs.map(a => accountRow(a, true)).join("")).join("")
       + '<button class="arow add" data-newacc="1">' + svg('<path d="M12 5v14M5 12h14"/>') + 'Nouveau compte</button>'
     + '</div></div>'
 
     + '</div></div>';
 }
+
+/** « août 2026 » à partir d'une date ISO */
+const moisAn = iso => MONTHS[+iso.slice(5,7)-1] + " " + iso.slice(0,4);
+
+/** une part du capital : nom, montant, part, et ce qu'elle vaut de plus */
+function capPart(nom, v, total, col, sous){
+  const p = total > 0 ? Math.round(v / total * 100) : 0;
+  return '<div class="cpart">'
+    + '<div class="ck"><i style="background:' + col + '"></i>' + esc(nom) + '</div>'
+    + '<div class="cv num">' + fmt(v) + '</div>'
+    + '<div class="cs"><span class="num">' + p + ' %</span> · ' + esc(sous) + '</div>'
+    + '<div class="cbar"><i style="width:' + Math.max(2, p) + '%;background:' + col + '"></i></div>'
+    + '</div>';
+}
+
+/** barre à deux segments : ce qui est disponible, ce qui est placé */
+function splitBar(dispo, investi){
+  const t = dispo + investi;
+  if (t <= 0) return '<div class="delta"><span>Rien à répartir pour l\'instant</span></div>';
+  const p = Math.max(2, Math.min(98, dispo / t * 100));
+  return '<div class="sbar" role="img" aria-label="' + Math.round(p) + ' % disponible">'
+    + '<i style="width:' + p.toFixed(1) + '%;background:var(--acc)"></i>'
+    + '<i style="width:' + (100 - p).toFixed(1) + '%;background:var(--asset)"></i></div>';
+}
+function splitPart(nom, v, total, col, sous){
+  const p = total > 0 ? Math.round(v / total * 100) : 0;
+  // « 100 % » sous le patrimoine ne veut rien dire : c'est le tout
+  const part = (p >= 100 || total <= 0) ? "" : '<span class="sp num">' + p + ' %</span>';
+  return '<div class="spart">'
+    + '<div class="sk"><i style="background:' + col + '"></i>' + esc(nom) + part + '</div>'
+    + '<div class="sv num">' + fmt(v) + '</div>'
+    + '<div class="ss">' + esc(sous) + '</div></div>';
+}
+
 
 /* ---------- page d'un compte ---------- */
 function viewAccount(id){
@@ -1447,6 +1809,39 @@ function recurringLabel(r){
   return fmt(r.amount) + " le " + r.day + " de chaque mois, " + src;
 }
 
+/* LE GRAPHIQUE DES PLACEMENTS — celui des calculateurs d'intérêts composés :
+   deux couches empilées, ce qu'on a versé et ce que ça a rapporté. On lit d'un coup
+   d'œil la part du capital qui vient de soi et la part qui vient du temps. */
+function placementSeries(){
+  const list = S.accounts.filter(isAsset);
+  if (!list.length) return [];
+  const debuts = list.map(a => firstAnchorDate(a.id)).filter(Boolean).sort();
+  if (!debuts.length) return [];
+  // même fenêtre que la courbe du capital : le sélecteur Jour/Mois/Année pilote les deux,
+  // bornée au premier versement — avant, il n'y a rien à montrer
+  const f = fenetreCourbe();
+  const debut = f.debut > debuts[0] ? f.debut : debuts[0];
+  const fin = f.fin;
+  const jours = Math.round((new Date(fin+"T12:00:00") - new Date(debut+"T12:00:00")) / 86400000);
+  if (jours < 3) return [];
+  const pas = Math.max(1, Math.round(jours / 70));
+  const pts = [];
+  for (let d = debut; d <= fin; d = shiftDays(d, pas)) pts.push(pointPlacement(list, d));
+  const dernier = pointPlacement(list, fin);
+  if (pts[pts.length-1].d !== fin) pts.push(dernier);
+  return pts;
+}
+function pointPlacement(list, d){
+  let verse = 0, valeur = 0;
+  for (const a of list){
+    const anchors = anchorsOf(a.id, d);
+    verse  += anchors.reduce((s,x) => s + x.amount, 0);
+    valeur += valueAt(a.id, d);
+  }
+  return { d, verse: Math.round(verse*100)/100, valeur: Math.round(valeur*100)/100 };
+}
+
+
 function viewInvest(){
   const list = S.accounts.filter(isAsset);
   document.getElementById("sub").textContent = "";
@@ -1460,7 +1855,7 @@ function viewInvest(){
   const total = Math.round(list.reduce((s,a) => s + value(a.id), 0) * 100) / 100;
   const ref   = Math.round(list.reduce((s,a) => s + investRef(a.id), 0) * 100) / 100;
   const g = Math.round((total - ref) * 100) / 100;
-  const serie = totalSeries(list);
+  const sPlac = placementSeries();
 
   const cards = list.map((a,i) => {
     const col = holdColor(i);
@@ -1499,7 +1894,11 @@ function viewInvest(){
       + '</div>'
       + '<div class="hero-alloc">' + donutChart(holdingGroups()) + '</div>'
     + '</div>'
-    + (serie.length > 2 ? '<div class="card">' + lineChart(serie) + '</div>' : "")
+    + (sPlac.length > 2
+        ? '<div class="card"><div class="head"><h3>Versé et gagné</h3>'
+          + '<span class="hint" style="margin:0">' + esc(fenetreCourbe().libelle) + '</span></div>'
+          + chartPlacements(sPlac) + '</div>'
+        : "")
     + '<div class="holds">' + cards + '</div>'
     + '<button class="arow add" data-newhold="1">' + svg('<path d="M12 5v14M5 12h14"/>') + 'Ajouter un placement</button>'
     + '<div class="hint">' + esc(quotesAge()) + ' · mise à jour automatique à chaque ouverture. '
@@ -1530,9 +1929,17 @@ function modalHolding(id){
         : '<div class="f"><label>Symbole suivi</label><input id="h_sym" type="text" value="' + esc(a.symbol || "") + '"></div>'
           + '<div class="hint" style="margin-bottom:16px">' + esc(quoteCaption(a.symbol)) + '</div>')
 
-    + '<div class="sect" style="margin-bottom:8px">' + (immo ? "Corriger la valeur" : "Montant réel") + '</div>'
+    + '<div class="sect" style="margin-bottom:8px">'
+      + (marks.length ? "Mettre à jour la valeur" : "Ce que tu as investi") + '</div>'
+    + '<div class="hint" style="margin:-4px 0 10px">'
+      + (marks.length
+          ? "Le premier montant enregistré reste ta mise de départ (" + esc(fmt(investRef(id)))
+            + "). Ce que tu notes ici met à jour la valeur actuelle."
+          : "C'est ta mise de départ. Tout ce que tu ajouteras ensuite s'y ajoutera, "
+            + "et la valeur évoluera toute seule.") + '</div>'
     + '<div class="f2">'
-      + '<div class="f"><label>Combien ça vaut</label><input id="h_val" class="num" type="text" inputmode="decimal" placeholder="0,00"></div>'
+      + '<div class="f"><label>' + (marks.length ? "Combien ça vaut" : "Montant investi") + '</label>'
+      + '<div class="suffixed"><input id="h_val" class="num" type="text" inputmode="decimal" placeholder="0,00"><span>€</span></div></div>'
       + '<div class="f"><label>À quelle date</label><input id="h_date" type="date" value="' + todayISO() + '"></div>'
     + '</div>'
     + '<button class="btn btn-s" data-addmark="' + id + '" style="margin-bottom:16px">Enregistrer ce montant</button>'
@@ -1544,7 +1951,8 @@ function modalHolding(id){
       + (rec ? '<button class="btn btn-s btn-danger" data-delrec="' + rec.id + '">Supprimer</button>' : "")
     + '</div>'
 
-    + (marks.length ? '<div class="sect" style="margin-bottom:8px">Montants notés</div><div class="list">'
+    + (marks.length ? '<div class="sect" style="margin-bottom:8px">Historique des montants</div>'
+        + '<div class="hint" style="margin:-4px 0 8px">Le plus ancien est ta mise de départ.</div><div class="list">'
         + marks.map(m => '<div class="row"><div class="mid"><div class="l1 num">' + fmt(m.value) + '</div>'
             + '<div class="l2">' + dayLabel(m.date) + '</div></div>'
             + '<button class="del" data-delmark="' + m.id + '" style="opacity:1">' + svg('<path d="M18 6L6 18M6 6l12 12"/>', 2.2) + '</button></div>').join("")
@@ -1682,39 +2090,101 @@ function modalAddHolding(){
 }
 
 /* --- versement automatique --- */
+/* Un seul écran pour les deux façons de verser : une fois à une date choisie,
+   ou tous les mois. C'est la même intention — mettre de l'argent de côté — donc
+   ça ne mérite pas deux entrées de menu séparées. */
 function modalRecurring(accountId){
   const rec = recurringOf(accountId);
+  const prevus = (S.planned || []).filter(r => r.to === accountId && !r.done)
+                   .sort((a,b) => a.date.localeCompare(b.date));
+
   openModal(
-    '<h3>Versement automatique</h3>'
-    + '<div class="f"><label>Montant chaque mois</label><input id="r_amt" class="amt-in num" type="text" inputmode="decimal" placeholder="0,00" value="' + (rec ? String(rec.amount).replace(".", ",") : "") + '"></div>'
-    + '<div class="f2">'
+    '<h3>Planifier un versement</h3>'
+    + '<div class="f"><label>Quand ?</label>'
+      + '<div class="seg-choice" id="v_mode">'
+        + '<button type="button" data-mode="once"' + (rec ? '' : ' class="on"') + '><b>Une seule fois</b>'
+          + '<span>à la date que tu choisis</span></button>'
+        + '<button type="button" data-mode="every"' + (rec ? ' class="on"' : '') + '><b>Tous les mois</b>'
+          + '<span>versé automatiquement</span></button>'
+      + '</div></div>'
+
+    + '<div class="f"><label>Montant</label>'
+      + '<div class="suffixed"><input id="r_amt" class="num" type="text" inputmode="decimal" '
+      + 'placeholder="0,00" value="' + (rec ? String(rec.amount).replace(".", ",") : "") + '"><span>€</span></div></div>'
+
+    + '<div class="f" id="v_once"' + (rec ? ' hidden' : '') + '><label>Date du versement</label>'
+      + '<input id="v_date" type="date" value="' + todayISO() + '"></div>'
+
+    + '<div class="f2" id="v_every"' + (rec ? '' : ' hidden') + '>'
       + '<div class="f"><label>Le combien du mois</label><select id="r_day">'
         + Array.from({length:28}, (_,i) => '<option' + (rec && rec.day === i+1 ? " selected" : "") + '>' + (i+1) + '</option>').join("")
       + '</select></div>'
       + '<div class="f"><label>À partir de</label><input id="r_start" type="date" value="' + (rec ? rec.start : todayISO()) + '"></div>'
     + '</div>'
+
     + '<div class="f"><label>Depuis quel compte ?</label><select id="r_src">'
       + accOptions(rec && rec.from !== "ext" ? rec.from : null, a => a.id !== accountId)
       + '<option value="ext"' + (rec && rec.from === "ext" ? " selected" : "") + '>— argent de quelqu\'un d\'autre (ma mère…)</option>'
     + '</select></div>'
-    + '<div class="hint">Les versements passés sont créés automatiquement au lancement de l\'app. '
-      + 'Tu peux toujours en supprimer un dans les opérations.</div>'
-    + '<div class="acts"><button class="btn" data-cancel>Annuler</button><button class="btn btn-p" data-ok>Enregistrer</button></div>'
+
+    + '<div class="hint" id="v_hint">' + (rec
+        ? 'Les versements passés sont créés automatiquement au lancement de l\'app.'
+        : 'Le versement sera enregistré tout seul le jour venu. Tu peux l\'annuler avant.') + '</div>'
+
+    + (prevus.length ? '<div class="sect" style="margin:16px 0 8px">Versements prévus</div><div class="list">'
+        + prevus.map(r => '<div class="row"><div class="mid"><div class="l1 num">' + fmt(r.amount) + '</div>'
+            + '<div class="l2">' + dayLabel(r.date) + ' · depuis '
+            + esc(r.from === "ext" ? "l\'extérieur" : (acc(r.from) || {}).name || "?") + '</div></div>'
+            + '<button class="del" data-delplan="' + r.id + '" style="opacity:1">'
+            + svg('<path d="M18 6L6 18M6 6l12 12"/>', 2.2) + '</button></div>').join("")
+        + '</div>' : "")
+
+    + '<div class="acts">'
+      + (rec ? '<button class="btn btn-danger" data-delrec="' + rec.id + '">Arrêter le mensuel</button>' : "")
+      + '<button class="btn" data-cancel>Annuler</button>'
+      + '<button class="btn btn-p" data-ok>Enregistrer</button></div>',
+    true
   );
-  ov.querySelector("[data-cancel]").onclick = () => modalHolding(accountId);
-  ov.querySelector("[data-ok]").onclick = () => {
-    const amt = parseAmount(ov.querySelector("#r_amt").value);
-    if (!(amt > 0)) return shake(ov.querySelector("#r_amt"));
+
+  let mode = rec ? "every" : "once";
+  const q = sel => ov.querySelector(sel);
+  q("#v_mode").onclick = e => {
+    const b = e.target.closest("[data-mode]");
+    if (!b) return;
+    ov.querySelectorAll("#v_mode [data-mode]").forEach(x => x.classList.toggle("on", x === b));
+    mode = b.dataset.mode;
+    q("#v_once").hidden  = mode !== "once";
+    q("#v_every").hidden = mode !== "every";
+    q("#v_hint").textContent = mode === "once"
+      ? "Le versement sera enregistré tout seul le jour venu. Tu peux l'annuler avant."
+      : "Chaque mois, le versement est créé automatiquement au lancement de l'app.";
+  };
+
+  q("[data-cancel]").onclick = () => modalHolding(accountId);
+  q("[data-ok]").onclick = () => {
+    const amt = parseAmount(q("#r_amt").value);
+    if (!(amt > 0)) return shake(q("#r_amt"));
+    const src = q("#r_src").value;
+
+    if (mode === "once"){
+      const date = q("#v_date").value || todayISO();
+      S.planned.push({ id:uid(), to:accountId, from:src, amount:amt, date, done:false });
+      save();
+      const n = runRecurring();
+      closeModal(); render();
+      toast(n ? "Versement enregistré" : "Versement prévu pour le " + shortDate(date));
+      return;
+    }
     const r = rec || { id:uid(), to:accountId };
     r.amount = amt;
-    r.day    = +ov.querySelector("#r_day").value;
-    r.start  = ov.querySelector("#r_start").value || todayISO();
-    r.from   = ov.querySelector("#r_src").value;
+    r.day    = +q("#r_day").value;
+    r.start  = q("#r_start").value || todayISO();
+    r.from   = src;
     if (!rec){ S.recurring.push(r); r.last = null; }
     save();
     const n = runRecurring();
     closeModal(); render();
-    toast(n ? "Versement auto réglé · " + n + " versement" + (n>1?"s créés":" créé") : "Versement automatique réglé");
+    toast(n ? "Versement mensuel réglé · " + n + " versement" + (n>1?"s créés":" créé") : "Versement mensuel réglé");
   };
 }
 
@@ -1734,6 +2204,22 @@ function nextOccurrence(cursor, day, includeCursor){
 function runRecurring(){
   let added = 0;
   const today = todayISO();
+
+  // 1. les versements planifiés à une date précise, une seule fois
+  for (const r of (S.planned || [])){
+    if (r.done || !acc(r.to) || r.date > today) continue;
+    const t = { id:uid(), amount:r.amount, date:r.date,
+                label: r.label || "Versement planifié", auto:r.id };
+    if (r.from === "ext" || !acc(r.from)){
+      t.type = "in"; t.to = r.to; t.adj = true;
+      t.cat = catList("in").some(c => c.name === "Cadeau reçu") ? "Cadeau reçu" : catList("in")[0].name;
+    } else {
+      t.type = "tr"; t.from = r.from; t.to = r.to;
+    }
+    S.tx.push(t); r.done = true; added++;
+  }
+
+  // 2. les versements récurrents, mois après mois
   for (const r of (S.recurring || [])){
     if (!acc(r.to)) continue;
     let cursor = r.last || r.start;
@@ -1829,31 +2315,197 @@ function barChart(items){
 
 function sparkline(pts, color){
   if (!pts || pts.length < 2) return '<svg class="spark"></svg>';
-  const W = 92, H = 32, p = 3;
+  const W = 100, H = 34, p = 3;
   const ys = pts.map(x => x.y), min = Math.min(...ys), max = Math.max(...ys);
   const span = (max - min) || 1;
   const X = i => p + (i/(pts.length-1)) * (W - p*2);
   const Y = v => H - p - ((v - min)/span) * (H - p*2);
   const d = pts.map((x,i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(x.y).toFixed(1)).join(" ");
-  return '<svg class="spark" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none">'
+  return '<svg class="spark" viewBox="0 0 '+W+' '+H+'">'
     + '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 }
 
-function lineChart(pts){
-  const W = 640, H = 150, pad = 8;
-  const ys = pts.map(p => p.y), min = Math.min(...ys), max = Math.max(...ys);
-  const span = (max - min) || 1;
-  const X = i => pad + (i/(pts.length-1)) * (W - pad*2);
-  const Y = v => H - 20 - ((v - min)/span) * (H - 40);
-  const d = pts.map((p,i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(p.y).toFixed(1)).join(" ");
-  const area = d + " L" + X(pts.length-1).toFixed(1) + " " + (H-20) + " L" + X(0).toFixed(1) + " " + (H-20) + " Z";
-  const c = pts[pts.length-1].y >= pts[0].y ? "#2F7A55" : "#B4462F";
-  return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none">'
-    + '<defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">'
-    + '<stop offset="0%" stop-color="'+c+'" stop-opacity=".2"/><stop offset="100%" stop-color="'+c+'" stop-opacity="0"/></linearGradient></defs>'
-    + '<path d="'+area+'" fill="url(#g1)"/>'
-    + '<path d="'+d+'" fill="none" stroke="'+c+'" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+/* MOTEUR DES GRAPHIQUES.
+   Ils ne sont plus dessinés dans un repère fixe étiré à la largeur du bloc : cette
+   déformation écrasait le trait, les cercles ET les chiffres de l'axe — c'est ce qui
+   les faisait paraître « allongés ». Ici on mesure la largeur réelle en pixels et on
+   dessine dedans, sans preserveAspectRatio. Redessiné au redimensionnement. */
+
+/** courbe simple : le patrimoine dans le temps */
+function lineChart(pts, h, opts){
+  const o = opts || {};
+  return '<div class="lc" data-type="ligne" data-h="' + (h || 150) + '"'
+    + ' data-axe="' + (o.axe ? 1 : 0) + '"'
+    + ' data-pts="' + esc(pts.map(p => p.d + ":" + p.y).join(",")) + '"></div>';
 }
+
+/** aire empilée : ce qui a été versé, et ce que ça a rapporté par-dessus */
+function chartPlacements(pts){
+  const dernier = pts[pts.length-1];
+  return '<div class="lc pl" data-type="empile" data-h="200"'
+    + ' data-pts="' + esc(pts.map(p => p.d + "|" + p.verse + "|" + p.valeur).join(",")) + '"></div>'
+    + '<div class="lc-leg">'
+      + '<span><i class="sw sw-verse"></i>Ce que tu as versé<b class="num">' + fmt(dernier.verse) + '</b></span>'
+      + '<span><i class="sw sw-gain"></i>Ce que ça a rapporté<b class="num">'
+      + fmtS(Math.round((dernier.valeur - dernier.verse) * 100) / 100) + '</b></span>'
+    + '</div>';
+}
+
+/** un axe lisible : des paliers ronds, pas des valeurs arbitraires */
+function paliers(bas, haut, combien){
+  const brut = (haut - bas) / combien;
+  const dix = Math.pow(10, Math.floor(Math.log10(Math.max(brut, 1e-6))));
+  const pas = [1, 2, 2.5, 5, 10].map(x => x * dix).find(x => x >= brut) || dix * 10;
+  const out = [];
+  for (let v = Math.ceil(bas / pas) * pas; v <= haut + 1e-9; v += pas) out.push(v);
+  return out;
+}
+
+function dessinerCourbe(el){
+  const L = Math.round(el.clientWidth), H = +el.dataset.h;
+  if (!L || !H) return;
+  const empile = el.dataset.type === "empile";
+  const axe = empile || el.dataset.axe === "1";
+
+  const pts = el.dataset.pts.split(",").map(x => {
+    if (empile){ const [d, v, val] = x.split("|"); return { d, verse:+v, valeur:+val }; }
+    const i = x.lastIndexOf(":");
+    return { d: x.slice(0,i), y: +x.slice(i+1) };
+  });
+  if (pts.length < 2) return;
+
+  const gG = axe ? 58 : 10, gD = 10, gH = 14, gB = axe ? 26 : 12;
+  let bas, haut;
+  if (empile){
+    bas = 0;
+    haut = Math.max(...pts.map(p => Math.max(p.valeur, p.verse))) * 1.1 || 1;
+  } else {
+    const ys = pts.map(p => p.y), mn = Math.min(...ys), mx = Math.max(...ys);
+    // une variation de 2 % ne doit pas ressembler à une envolée
+    const demi = Math.max((mx - mn) / 2, Math.max(Math.abs(mx) * 0.06, 1));
+    const c0 = (mx + mn) / 2;
+    bas = c0 - demi * 1.25; haut = c0 + demi * 1.25;
+  }
+  const span = haut - bas || 1;
+  const X = i => gG + (i / (pts.length - 1)) * (L - gG - gD);
+  const Y = v => gH + (1 - (v - bas) / span) * (H - gH - gB);
+  el.__geo = { L, H, gG, gD, X };
+
+  const trace = f => pts.map((p,i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(f(p)).toFixed(1)).join(" ");
+  const socle = " L" + X(pts.length-1).toFixed(1) + " " + (H-gB).toFixed(1)
+              + " L" + X(0).toFixed(1) + " " + (H-gB).toFixed(1) + " Z";
+
+  let grille = "";
+  if (axe){
+    for (const v of paliers(bas, haut, 4)){
+      const y = Y(v).toFixed(1);
+      grille += '<line x1="'+gG+'" x2="'+(L-gD)+'" y1="'+y+'" y2="'+y+'" class="gl"/>'
+        + '<text x="'+(gG-10)+'" y="'+(+y+3.8)+'" class="gt" text-anchor="end">'
+        + esc(eur0.format(v)) + '</text>';
+    }
+    // quelques dates en bas, jamais plus de quatre pour ne pas encombrer
+    const n = Math.min(4, pts.length);
+    for (let k = 0; k < n; k++){
+      const i = Math.round(k * (pts.length - 1) / (n - 1 || 1));
+      grille += '<text x="'+X(i).toFixed(1)+'" y="'+(H-8)+'" class="gt" text-anchor="'
+        + (k === 0 ? "start" : k === n-1 ? "end" : "middle") + '">'
+        + esc(shortDate(pts[i].d)) + '</text>';
+    }
+  }
+
+  const uid2 = "gr" + Math.random().toString(36).slice(2,7);
+  let corps;
+  if (empile){
+    const dessus = trace(p => p.valeur);
+    const retour = pts.slice().reverse()
+      .map((p,i) => "L" + X(pts.length-1-i).toFixed(1) + " " + Y(p.verse).toFixed(1)).join(" ");
+    corps =
+        '<path d="'+trace(p => p.verse)+socle+'" fill="url(#v'+uid2+')"/>'
+      + '<path d="'+dessus+' '+retour+' Z" fill="url(#g'+uid2+')"/>'
+      + '<path d="'+trace(p => p.verse)+'" fill="none" stroke="var(--asset)" stroke-width="1.5" opacity=".9"/>'
+      + '<path d="'+dessus+'" fill="none" stroke="var(--pos)" stroke-width="2.5" stroke-linejoin="round"/>';
+  } else {
+    const monte = pts[pts.length-1].y >= pts[0].y;
+    const c = monte ? "var(--pos)" : "var(--neg)";
+    corps =
+        '<path d="'+trace(p => p.y)+socle+'" fill="url(#g'+uid2+')"/>'
+      + '<path d="'+trace(p => p.y)+'" fill="none" stroke="'+c+'" stroke-width="2.5" '
+      + 'stroke-linejoin="round" stroke-linecap="round"/>'
+      + '<circle class="dot" cx="'+X(pts.length-1).toFixed(1)+'" cy="'+Y(pts[pts.length-1].y).toFixed(1)
+      + '" r="4" fill="'+c+'" stroke="var(--surface)" stroke-width="2.5"/>';
+  }
+
+  const cGrad = empile ? "var(--pos)" : (pts[pts.length-1].y >= pts[0].y ? "var(--pos)" : "var(--neg)");
+  el.innerHTML =
+    '<svg width="'+L+'" height="'+H+'" viewBox="0 0 '+L+' '+H+'" aria-hidden="true">'
+      + '<defs>'
+        + '<linearGradient id="g'+uid2+'" x1="0" y1="0" x2="0" y2="1">'
+          + (empile
+              ? '<stop offset="0%" stop-color="#5FD39A"/>'
+                + '<stop offset="55%" stop-color="#3FAE74"/>'
+                + '<stop offset="100%" stop-color="#2C8C5B"/>'
+              : '<stop offset="0%" stop-color="'+cGrad+'" stop-opacity=".26"/>'
+                + '<stop offset="100%" stop-color="'+cGrad+'" stop-opacity="0"/>')
+        + '</linearGradient>'
+        + '<linearGradient id="v'+uid2+'" x1="0" y1="0" x2="0" y2="1">'
+          + '<stop offset="0%" stop-color="#63BFD6"/>'
+          + '<stop offset="45%" stop-color="#3B93AF"/>'
+          + '<stop offset="100%" stop-color="#1B4A6B"/>' 
+        + '</linearGradient>'
+      + '</defs>'
+      + grille + corps
+      + '<line class="cross" x1="0" x2="0" y1="'+gH+'" y2="'+(H-gB)+'" style="display:none"/>'
+    + '</svg>'
+    + '<div class="lc-tip" hidden></div>';
+}
+
+/* Survol : la valeur exacte à la date pointée. Un graphique sans ça n'est qu'un décor. */
+function brancherCourbes(racine){
+  for (const el of (racine || document).querySelectorAll(".lc")){
+    dessinerCourbe(el);
+    if (el.dataset.pret) continue;
+    el.dataset.pret = "1";
+    const empile = el.dataset.type === "empile";
+    const pts = el.dataset.pts.split(",").map(x => {
+      if (empile){ const [d, v, val] = x.split("|"); return { d, verse:+v, valeur:+val }; }
+      const i = x.lastIndexOf(":");
+      return { d: x.slice(0,i), y: +x.slice(i+1) };
+    });
+
+    el.onpointermove = e => {
+      const g = el.__geo; if (!g) return;
+      const r = el.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const i = Math.max(0, Math.min(pts.length-1,
+        Math.round((x - g.gG) / (g.L - g.gG - g.gD) * (pts.length - 1))));
+      const p = pts[i], px = g.X(i);
+      const cross = el.querySelector(".cross"), tip = el.querySelector(".lc-tip");
+      if (!cross || !tip) return;
+      cross.setAttribute("x1", px); cross.setAttribute("x2", px);
+      cross.style.display = "";
+      tip.hidden = false;
+      tip.innerHTML = empile
+        ? '<b>' + esc(fmt(p.valeur)) + '</b><span>' + esc(fmt(p.verse)) + ' versés · '
+          + esc(fmtS(Math.round((p.valeur - p.verse) * 100) / 100)) + '</span>'
+          + '<span>' + esc(shortDate(p.d)) + '</span>'
+        : '<b>' + esc(fmt(p.y)) + '</b><span>' + esc(shortDate(p.d)) + '</span>';
+      tip.style.left = Math.max(46, Math.min(g.L - 46, px)) + "px";
+    };
+    el.onpointerleave = () => {
+      const cross = el.querySelector(".cross"), tip = el.querySelector(".lc-tip");
+      if (cross) cross.style.display = "none";
+      if (tip) tip.hidden = true;
+    };
+  }
+}
+
+/* la largeur change : on redessine, sinon le tracé reste calé sur l'ancienne taille */
+let redessin;
+window.addEventListener("resize", () => {
+  clearTimeout(redessin);
+  redessin = setTimeout(() => document.querySelectorAll(".lc").forEach(dessinerCourbe), 120);
+});
+
 
 /* ============================ modales ============================ */
 const ov = document.getElementById("ov");
@@ -1879,6 +2531,16 @@ ov.addEventListener("click", e => {
   }
   const sr = e.target.closest("[data-setrec]");
   if (sr){ modalRecurring(sr.dataset.setrec); return; }
+
+  const dp = e.target.closest("[data-delplan]");
+  if (dp){
+    const r = (S.planned || []).find(x => x.id === dp.dataset.delplan);
+    S.planned = (S.planned || []).filter(x => x.id !== dp.dataset.delplan);
+    save(); render();
+    if (r) modalRecurring(r.to);
+    toast("Versement prévu annulé", "Annuler", () => { S.planned.push(r); save(); render(); });
+    return;
+  }
 
   const dr = e.target.closest("[data-delrec]");
   if (dr){
@@ -2519,6 +3181,9 @@ function modalCsv(rows, filename, presetAccount){
 
 const GOOGLE_CLIENT_ID = "218922181296-pd2td8rqn628va83dgdas3apkn0mk0bs.apps.googleusercontent.com";
 const DRIVE_FILE  = "comptes.json";
+/* À incrémenter dès qu'un champ nouveau apparaît dans les données. Un appareil dont
+   l'app est plus ancienne refusera d'écraser des données d'un schéma supérieur. */
+const SCHEMA = 5;
 const DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.appdata";
 
 let syncStatus = "";
@@ -2640,7 +3305,32 @@ const Sync = {
     this.fileId = (await r.json()).id;
   },
 
-  /** compare les deux côtés et garde le plus récent */
+  /* Fusion par identifiant. « Garder le plus récent » perdait des données : il suffisait
+     que l'horloge du téléphone avance un peu, ou qu'une migration y remette updatedAt à
+     maintenant, pour que le téléphone réécrive tout par-dessus le Mac. C'est comme ça
+     que ses projets immobiliers disparaissaient. Ici on ne jette plus rien : chaque
+     liste est réunie par identifiant, et en cas de conflit sur un même identifiant on
+     garde la version du côté modifié le plus récemment. */
+  fusionner(local, distant){
+    const recentDistant = (distant.updatedAt || "") > (local.updatedAt || "");
+    const union = (a, b) => {
+      const m = new Map();
+      for (const x of (recentDistant ? a : b) || []) if (x && x.id) m.set(x.id, x);
+      for (const x of (recentDistant ? b : a) || []) if (x && x.id) m.set(x.id, x);
+      return [...m.values()];
+    };
+    const base = recentDistant ? { ...local, ...distant } : { ...distant, ...local };
+    base.accounts  = union(local.accounts,  distant.accounts);
+    base.tx        = union(local.tx,        distant.tx);
+    base.marks     = union(local.marks,     distant.marks);
+    base.recurring = union(local.recurring, distant.recurring);
+    base.rev       = Math.max(local.rev || 0, distant.rev || 0) + 1;
+    base.updatedAt = new Date().toISOString();
+    base.schema    = Math.max(local.schema || 0, distant.schema || 0);
+    return base;
+  },
+
+  /** rapproche les deux côtés sans jamais perdre ce qui n'existe que d'un seul */
   run(interactive){
     if (!this.available()){
       setSyncStatus("Indisponible ici : la page doit être servie par l'app ou par le site");
@@ -2654,30 +3344,47 @@ const Sync = {
       try{
         const remote = await this.doPull();
         if (remote && remote.accounts){
-          const rt = remote.updatedAt || "", lt = S.updatedAt || "";
-          if (rt > lt){
-            S = remote;
-            migrateState();
-            S.sync = S.sync || {};
-            S.sync.enabled = true;
-            S.sync.last = new Date().toISOString();
-            Store.save(S);                       // sans compter comme une modification
-            render();
-            setSyncStatus("À jour · récupéré depuis Drive");
-          } else if (lt > rt){
-            await this.doPush();
-            S.sync.enabled = true; S.sync.last = new Date().toISOString();
-            Store.save(S);
-            setSyncStatus("À jour · envoyé vers Drive");
-          } else {
-            S.sync.enabled = true; S.sync.last = new Date().toISOString();
-            Store.save(S);
-            setSyncStatus("À jour");
+          // une app plus ancienne ne doit jamais réécrire des données plus récentes
+          if ((remote.schema || 0) > SCHEMA){
+            setSyncStatus("Cet appareil a une version plus ancienne de l'app — rien n'a été touché");
+            if (interactive) toast("Mets à jour l'app sur cet appareil avant de synchroniser");
+            this.busy = false; return;
           }
+          const base   = (S.sync && S.sync.baseRev) || 0;
+          const lRev   = S.rev || 0, rRev = remote.rev || 0;
+          const memeId = a => a && a.id;
+
+          if (rRev === base && lRev > base){
+            // seul cet appareil a bougé : envoi simple
+            await this.doPush();
+            setSyncStatus("À jour · envoyé vers Drive");
+          } else if (lRev === base && rRev > base){
+            // seul l'autre appareil a bougé : récupération simple
+            S = remote; migrateState();
+            setSyncStatus("À jour · récupéré depuis Drive");
+            render();
+          } else if (lRev === rRev && (S.updatedAt || "") === (remote.updatedAt || "")){
+            setSyncStatus("À jour");
+          } else {
+            // les deux ont changé depuis le dernier accord : on réunit, on ne jette rien
+            const avant = S.accounts.length;
+            S = this.fusionner(S, remote);
+            migrateState();
+            await this.doPush();
+            const gagnes = S.accounts.length - avant;
+            setSyncStatus("À jour · fusionné" + (gagnes > 0 ? " (" + gagnes + " retrouvé" + (gagnes > 1 ? "s" : "") + ")" : ""));
+            render();
+          }
+          S.sync = S.sync || {};
+          S.sync.enabled = true;
+          S.sync.last = new Date().toISOString();
+          S.sync.baseRev = S.rev || 0;
+          Store.save(S);                       // sans compter comme une modification
         } else {
           await this.doPush();
           S.sync = S.sync || {};
           S.sync.enabled = true; S.sync.last = new Date().toISOString();
+          S.sync.baseRev = S.rev || 0;
           Store.save(S);
           setSyncStatus("À jour · première sauvegarde envoyée");
         }
@@ -2697,6 +3404,7 @@ const Sync = {
       try{
         await this.doPush();
         S.sync.last = new Date().toISOString();
+        S.sync.baseRev = S.rev || 0;
         Store.save(S);
         setSyncStatus("À jour · envoyé vers Drive");
       }catch(e){ setSyncStatus("Envoi en attente : " + e.message); }
